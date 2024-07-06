@@ -89,3 +89,70 @@ export const POST = async (req) => {
     );
   }
 };
+
+export const PUT = async (req) => {
+  try {
+    const { email, password } = await req.json();
+    const user = await User.findOne({ email });
+    if (!user) {
+      console.log("User doesn't exixt");
+      return NextResponse.json(
+        {
+          msg: "Incorrect email or password",
+          success: false,
+          code: 2002,
+        },
+        { status: 500 }
+      );
+    }
+    const passwordIsValid = await bcryptjs.compare(password, user.password);
+    if (!passwordIsValid) {
+      console.log("Wrong password !");
+      return NextResponse.json(
+        {
+          msg: "Incorrect email or password",
+          success: false,
+          code: 2003,
+        },
+        { status: 500 }
+      );
+    }
+    //! Token
+    const tokenData = {
+      id: user._id,
+      name: user.name,
+      email: user.email,
+    };
+    const token = jwt.sign(tokenData, process.env.TOKEN_SECRET, {
+      expiresIn: "1d",
+    });
+
+    const response = NextResponse.json(
+      {
+        msg: "Successfully Logged In",
+        success: true,
+        code: 2121,
+      },
+      {
+        status: 200,
+      }
+    );
+    response.cookies.set("token", token, {
+      httpOnly: true,
+    });
+    return response;
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json(
+      {
+        msg: "Server error",
+        error,
+        success: false,
+        code: 2001,
+      },
+      {
+        status: 500,
+      }
+    );
+  }
+};
