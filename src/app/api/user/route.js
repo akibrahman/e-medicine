@@ -79,7 +79,7 @@ export const POST = async (req) => {
     console.log(error);
     return NextResponse.json(
       {
-        msg: "Something Went Wrong in Login",
+        msg: "Something Went Wrong in Signup",
         error,
         success: false,
         code: 2001,

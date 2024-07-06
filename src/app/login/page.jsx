@@ -48,7 +48,7 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-[calc(100vh-84px)] flex items-center justify-center bg-white px-5">
+    <div className="min-h-[calc(100vh-84px)] flex items-center justify-center bg-white px-5 my-5">
       <div className="bg-primary p-8 rounded w-full max-w-md">
         <h2 className="text-2xl font-semibold mb-6 text-white text-center">
           Login

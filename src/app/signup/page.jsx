@@ -51,6 +51,7 @@ const SignUp = () => {
       toast.success("Sign up successful");
     } catch (error) {
       console.log(error);
+      console.log(error.response.data.error);
       toast.error(error.response.data.msg || "Server error");
     } finally {
       setLoading(false);
