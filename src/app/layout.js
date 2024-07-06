@@ -3,6 +3,7 @@ import "./globals.css";
 import TanstackProvider from "./providers/TanstackProvider";
 import ContextProvider from "./providers/ContextProvider";
 import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Navbar from "@/components/Navbar/Navbar";
 
 const poppins = Poppins({

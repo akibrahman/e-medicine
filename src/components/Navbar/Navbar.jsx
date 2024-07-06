@@ -5,6 +5,7 @@ import { BiSolidFirstAid } from "react-icons/bi";
 import { CiSearch } from "react-icons/ci";
 import { IoLocationOutline } from "react-icons/io5";
 import { BsCart3 } from "react-icons/bs";
+import Link from "next/link";
 
 const Navbar = () => {
   return (
@@ -13,10 +14,10 @@ const Navbar = () => {
         <div className="p-2 bg-primary rounded-md w-max text-white text-xl cursor-pointer duration-300 active:scale-90">
           <HiMiniBars3BottomLeft />
         </div>
-        <div className="flex items-center gap-1">
+        <Link href={"/"} className="flex items-center gap-1">
           <BiSolidFirstAid className="text-4xl text-primary" />
           <p className="text-4xl text-[#E8292F] font-black">Medicine</p>
-        </div>
+        </Link>
       </div>
 
       <div className="flex items-center">
@@ -42,9 +43,12 @@ const Navbar = () => {
           </p>
           <BsCart3 className="text-white text-lg font-bold" />
         </div>
-        <button className="bg-primary text-white px-3 py-2 rounded-md duration-300 active:scale-90 text-sm">
+        <Link
+          href={"/login"}
+          className="bg-primary text-white px-3 py-2 rounded-md duration-300 active:scale-90 text-sm"
+        >
           Login / Sign up
-        </button>
+        </Link>
       </div>
     </nav>
   );
