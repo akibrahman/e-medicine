@@ -1,7 +1,11 @@
-import { Inter, Poppins } from "next/font/google";
+import { Poppins } from "next/font/google";
 import "./globals.css";
+import TanstackProvider from "./providers/TanstackProvider";
+import ContextProvider from "./providers/ContextProvider";
+import { ToastContainer } from "react-toastify";
+import Navbar from "@/components/Navbar/Navbar";
 
-const inter = Poppins({
+const poppins = Poppins({
   subsets: ["latin"],
   weight: "400",
 });
@@ -14,7 +18,15 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={poppins.className}>
+        <TanstackProvider>
+          <ContextProvider>
+            <ToastContainer />
+            <Navbar />
+            <div className="">{children}</div>
+          </ContextProvider>
+        </TanstackProvider>
+      </body>
     </html>
   );
 }
