@@ -9,22 +9,22 @@ export const AuthContext = createContext(null);
 const ContextProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   //! Get User
-  // const { data: user, refetch: userRefetch } = useQuery({
-  //   queryKey: ["profile", "user", "all"],
-  //   queryFn: async () => {
-  //     setLoading(true);
-  //     try {
-  //       const { data } = await axios.get("/api/users/me");
-  //       if (data.success) return { ...data.user, success: true };
-  //       else return { success: false, msg: "unauthirized" };
-  //     } catch (error) {
-  //       return null;
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   },
-  // });
-  const info = { user: null, loading };
+  const { data: user, refetch: userRefetch } = useQuery({
+    queryKey: ["profile", "user", "all"],
+    queryFn: async () => {
+      setLoading(true);
+      try {
+        const { data } = await axios.get("/api/user");
+        if (data.success) return data.user;
+        else return null;
+      } catch (error) {
+        return null;
+      } finally {
+        setLoading(false);
+      }
+    },
+  });
+  const info = { user, loading };
   return <AuthContext.Provider value={info}>{children}</AuthContext.Provider>;
 };
 

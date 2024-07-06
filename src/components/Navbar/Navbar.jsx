@@ -1,13 +1,17 @@
 "use client";
-import React from "react";
+import React, { useContext } from "react";
 import { HiMiniBars3BottomLeft } from "react-icons/hi2";
 import { BiSolidFirstAid } from "react-icons/bi";
 import { CiSearch } from "react-icons/ci";
 import { IoLocationOutline } from "react-icons/io5";
 import { BsCart3 } from "react-icons/bs";
 import Link from "next/link";
+import { AuthContext } from "@/app/providers/ContextProvider";
+import Image from "next/image";
 
 const Navbar = () => {
+  const { loading, user } = useContext(AuthContext);
+  console.log(loading || user);
   return (
     <nav className="flex items-center justify-between border-b-4 border-primary py-5 px-4">
       <div className="flex items-center gap-6">
@@ -43,12 +47,25 @@ const Navbar = () => {
           </p>
           <BsCart3 className="text-white text-lg font-bold" />
         </div>
-        <Link
-          href={"/login"}
-          className="bg-primary text-white px-3 py-2 rounded-md duration-300 active:scale-90 text-sm"
-        >
-          Login / Sign up
-        </Link>
+        {loading ? null : !user ? (
+          <Link
+            href={"/login"}
+            className="bg-primary text-white px-3 py-2 rounded-md duration-300 active:scale-90 text-sm"
+          >
+            Login / Sign up
+          </Link>
+        ) : (
+          <div className="flex items-center gap-2 border rounded-full px-3 py-1">
+            <Image
+              src={user.photo}
+              alt="user.photo"
+              width={35}
+              height={35}
+              className="aspect-square rounded-full"
+            />
+            <p>{user.name}</p>
+          </div>
+        )}
       </div>
     </nav>
   );
