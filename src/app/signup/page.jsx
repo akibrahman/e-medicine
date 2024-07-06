@@ -7,7 +7,7 @@ import { useContext, useRef, useState } from "react";
 import { CgSpinner } from "react-icons/cg";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
-const Login = () => {
+const SignUp = () => {
   //   const { userRefetch } = useContext(AuthContext);
   //   const route = useRouter();
   //   const searchParams = useSearchParams();
@@ -56,7 +56,7 @@ const Login = () => {
   return (
     <div className="min-h-[calc(100vh-84px)] flex items-center justify-center bg-gradient-to-r from-primary to-transparent px-5">
       <div className="bg-gradient-to-l from-primary to-transparent p-8 rounded w-full max-w-md">
-        <h2 className="text-2xl font-semibold mb-6 text-white text-center">Login</h2>
+        <h2 className="text-2xl font-semibold mb-6 text-white text-center">Sign Up</h2>
         <form
         // onSubmit={handleSubmit}
         >
@@ -124,35 +124,12 @@ const Login = () => {
             )}
           </button>
           <div className="mt-4 flex items-center justify-between">
-            <Link href={"/signup"}>
+            <Link href={"/login"}>
               <span className="text-white">Or,</span>{" "}
               <span className="text-white font-semibold underline">
-                Sign Up
+                Login
               </span>
             </Link>
-            <span
-              //   onClick={async () => {
-              //     if (!email.current.value)
-              //       return toast.error("Enter your E-mail");
-              //     setLoading2(true);
-              //     const { data } = await axios.post(
-              //       "/api/sendverificationemail",
-              //       {
-              //         email: email.current.value,
-              //         emailType: "reset",
-              //         userId: "",
-              //         userName: "",
-              //       }
-              //     );
-              //     if (data.success) toast.success("Verification E-mail sent");
-              //     else toast.error(data.msg);
-              //     setLoading2(false);
-              //   }}
-              className="text-white font-semibold underline cursor-pointer flex items-center gap-3 duration-300"
-            >
-              Forgot Password
-              {/* {loading2 && <CgSpinner className="text-xl animate-spin" />} */}
-            </span>
           </div>
         </form>
       </div>
@@ -160,4 +137,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignUp;
