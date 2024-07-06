@@ -24,7 +24,7 @@ const ContextProvider = ({ children }) => {
       }
     },
   });
-  const info = { user, loading };
+  const info = { user, loading, userRefetch };
   return <AuthContext.Provider value={info}>{children}</AuthContext.Provider>;
 };
 

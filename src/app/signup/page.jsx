@@ -8,15 +8,12 @@ import { useContext, useRef, useState } from "react";
 import { CgSpinner } from "react-icons/cg";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { toast } from "react-toastify";
+import { AuthContext } from "../providers/ContextProvider";
 
 const SignUp = () => {
-  //   const { userRefetch } = useContext(AuthContext);
   const route = useRouter();
-  //   const searchParams = useSearchParams();
-  //   const callbackUrl = searchParams.get("callbackUrl");
-  //   const email = useRef();
+  const { userRefetch } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
-  //   const [loading2, setLoading2] = useState(false);
   const [passShown, setPassShown] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
@@ -47,6 +44,7 @@ const SignUp = () => {
     try {
       const res = await axios.post("/api/user", fullFormData);
       console.log(res.data);
+      await userRefetch();
       route.push("/");
       toast.success("Sign up successful");
     } catch (error) {
@@ -153,7 +151,6 @@ const SignUp = () => {
               accept="image/*"
               id="photo"
               name="photo"
-              //   value={formData.name}
               onChange={(e) => {
                 if (e.target.files) {
                   const file = e.target.files[0];

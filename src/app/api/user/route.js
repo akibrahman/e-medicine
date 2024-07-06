@@ -6,6 +6,7 @@ import { NextResponse } from "next/server";
 import { join } from "path";
 import bcryptjs from "bcryptjs";
 import { tokenToData } from "@/utils/tokenToData";
+import { cookies } from "next/headers";
 
 await dbConfig();
 
@@ -202,5 +203,30 @@ export const GET = async (req) => {
       expires: new Date(0),
     });
     return response;
+  }
+};
+
+export const PATCH = async () => {
+  try {
+    const response = NextResponse.json(
+      {
+        msg: "Successfully logged out",
+        success: true,
+        code: 3050,
+      },
+      { status: 200 }
+    );
+    cookies().delete("token");
+    return response;
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json(
+      {
+        msg: "Something went wrong when logging out",
+        success: false,
+        code: 3001,
+      },
+      { status: 501 }
+    );
   }
 };

@@ -7,15 +7,12 @@ import { useContext, useRef, useState } from "react";
 import { CgSpinner } from "react-icons/cg";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { toast } from "react-toastify";
+import { AuthContext } from "../providers/ContextProvider";
 
 const Login = () => {
-  //   const { userRefetch } = useContext(AuthContext);
   const route = useRouter();
-  //   const searchParams = useSearchParams();
-  //   const callbackUrl = searchParams.get("callbackUrl");
-  //   const email = useRef();
+  const { userRefetch } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
-  //   const [loading2, setLoading2] = useState(false);
   const [passShown, setPassShown] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
@@ -36,6 +33,7 @@ const Login = () => {
     try {
       const res = await axios.put("/api/user", formData);
       if (res.data.success) {
+        await userRefetch();
         toast.success("Login successful");
         route.push("/");
       }
@@ -119,29 +117,6 @@ const Login = () => {
                 Sign Up
               </span>
             </Link>
-            <span
-              //   onClick={async () => {
-              //     if (!email.current.value)
-              //       return toast.error("Enter your E-mail");
-              //     setLoading2(true);
-              //     const { data } = await axios.post(
-              //       "/api/sendverificationemail",
-              //       {
-              //         email: email.current.value,
-              //         emailType: "reset",
-              //         userId: "",
-              //         userName: "",
-              //       }
-              //     );
-              //     if (data.success) toast.success("Verification E-mail sent");
-              //     else toast.error(data.msg);
-              //     setLoading2(false);
-              //   }}
-              className="text-white font-semibold underline cursor-pointer flex items-center gap-3 duration-300"
-            >
-              Forgot Password
-              {/* {loading2 && <CgSpinner className="text-xl animate-spin" />} */}
-            </span>
           </div>
         </form>
       </div>

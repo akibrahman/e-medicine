@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { HiMiniBars3BottomLeft } from "react-icons/hi2";
 import { BiSolidFirstAid } from "react-icons/bi";
 import { CiSearch } from "react-icons/ci";
@@ -8,10 +8,34 @@ import { BsCart3 } from "react-icons/bs";
 import Link from "next/link";
 import { AuthContext } from "@/app/providers/ContextProvider";
 import Image from "next/image";
+import { toast } from "react-toastify";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
-  const { loading, user } = useContext(AuthContext);
+  const { loading, user, userRefetch } = useContext(AuthContext);
   console.log(loading || user);
+  const route = useRouter();
+  const [showLogoutMenu, setShowLogoutMenu] = useState(false);
+
+  const [loggingOut, setLoggingOut] = useState(false);
+  const logout = async () => {
+    setLoggingOut(true);
+    try {
+      const { data } = await axios.patch("/api/user");
+      if (data.success) {
+        await userRefetch();
+        route.push("/");
+        toast.success(data.msg);
+      }
+    } catch (error) {
+      toast.error("Something went Wrong !");
+      console.log(error);
+    } finally {
+      setLoggingOut(false);
+    }
+  };
+
   return (
     <nav className="flex items-center justify-between border-b-4 border-primary py-5 px-4">
       <div className="flex items-center gap-6">
@@ -55,15 +79,34 @@ const Navbar = () => {
             Login / Sign up
           </Link>
         ) : (
-          <div className="flex items-center gap-2 border rounded-full px-3 py-1">
-            <Image
-              src={user.photo}
-              alt="user.photo"
-              width={35}
-              height={35}
-              className="aspect-square rounded-full"
-            />
-            <p>{user.name}</p>
+          <div className="relative">
+            <div
+              onClick={() => setShowLogoutMenu(!showLogoutMenu)}
+              className="flex items-center gap-2 border rounded-full px-3 py-1 select-none cursor-pointer duration-300 active:scale-90"
+            >
+              <Image
+                src={user.photo}
+                alt="user.photo"
+                width={35}
+                height={35}
+                className="aspect-square rounded-full"
+              />
+              <p>{user.name}</p>
+            </div>
+            <div
+              className={`absolute -bottom-1 translate-y-full right-0 bg-primary text-white p-5 rounded-md duration-300 ${
+                showLogoutMenu ? "scale-100" : "scale-0"
+              }`}
+            >
+              <p>{user.email}</p>
+              <hr />
+              <button
+                onClick={logout}
+                className="border px-4 py-1 rounded-md duration-300 active:scale-90 mt-5"
+              >
+                Log out
+              </button>
+            </div>
           </div>
         )}
       </div>
