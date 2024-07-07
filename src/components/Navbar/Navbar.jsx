@@ -94,7 +94,7 @@ const Navbar = () => {
               <p>{user.name}</p>
             </div>
             <div
-              className={`absolute -bottom-1 translate-y-full right-0 bg-primary text-white p-5 rounded-md duration-300 ${
+              className={`absolute z-40 -bottom-1 translate-y-full right-0 bg-primary text-white p-5 rounded-md duration-300 ${
                 showLogoutMenu ? "scale-100" : "scale-0"
               }`}
             >
