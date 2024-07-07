@@ -5,8 +5,44 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { CgSpinner } from "react-icons/cg";
 import ManagerEditCategoryComponent from "./ManagerEditCategoryComponent";
+import Image from "next/image";
 
 const ManageCategoriesComponent = ({ user }) => {
+  const categoriess = [
+    {
+      title: "Pain Relief",
+      subs: ["Analgesics", "Anti-inflammatory", "Opioids"],
+    },
+    {
+      title: "Allergy",
+      subs: ["Antihistamines", "Decongestants", "Nasal Sprays"],
+    },
+    {
+      title: "Cold & Flu",
+      subs: ["Cough Suppressants", "Expectorants", "Nasal Decongestants"],
+    },
+    {
+      title: "Digestive Health",
+      subs: ["Antacids", "Laxatives", "Probiotics"],
+    },
+    {
+      title: "Vitamins & Supplements",
+      subs: ["Multivitamins", "Minerals", "Herbal Supplements"],
+    },
+    {
+      title: "Skin Care",
+      subs: ["Acne Treatments", "Moisturizers", "Sunscreen"],
+    },
+    {
+      title: "Heart Health",
+      subs: ["Blood Pressure Medications", "Cholesterol Medications"],
+    },
+    {
+      title: "Mental Health",
+      subs: ["Antidepressants", "Anti-anxiety Medications", "Mood Stabilizers"],
+    },
+  ];
+
   const { data: categories, refetch: refetchCategories } = useQuery({
     queryKey: ["All Categories", "Admin Panel"],
     queryFn: async () => {
@@ -74,12 +110,25 @@ const ManageCategoriesComponent = ({ user }) => {
                   className="bg-primary bg-opacity-90 text-white p-4 rounded-md"
                 >
                   <div className="flex items-center justify-between">
-                    <p className="flex items-center flex-wrap">
-                      Category Name:
-                      <span className="font-semibold ml-2 border border-white px-3 py-1 rounded-full w-max">
-                        {category.title}
-                      </span>
-                    </p>
+                    <div className="">
+                      <p className="flex items-center flex-wrap">
+                        Category Name:
+                        <span className="font-semibold ml-2 border border-white px-3 py-1 rounded-full w-max">
+                          {category.title}
+                        </span>
+                      </p>
+                      <p className="flex items-center flex-wrap">
+                        Category Photo:
+                        <Image
+                          src={category.photoUrl}
+                          alt={category.title}
+                          height={50}
+                          width={50}
+                          className="aspect-square rounded-full ml-2 mt-3"
+                        />
+                      </p>
+                    </div>
+
                     <div className="flex flex-col gap-3">
                       {category.subs.length > 0 && (
                         <p className="underline text-orange-400">
@@ -87,7 +136,16 @@ const ManageCategoriesComponent = ({ user }) => {
                         </p>
                       )}
                       {category.subs.map((sub, j) => (
-                        <p key={j}>{sub}</p>
+                        <div className="flex items-center gap-3" key={j}>
+                          <Image
+                            src={sub.photoUrl}
+                            alt={sub.title}
+                            height={30}
+                            width={30}
+                            className="aspect-square rounded-full"
+                          />
+                          {sub.title}
+                        </div>
                       ))}
                       {category.subs.length == 0 && (
                         <p className="text-red-400 w-max">No sub-categories</p>

@@ -1,4 +1,5 @@
 import axios from "axios";
+import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import { FaPlus, FaSpinner, FaTimes } from "react-icons/fa";
 import Modal from "react-modal";
@@ -13,8 +14,14 @@ const ManagerEditCategoryComponent = ({
   const subCategoryRef = useRef();
   const categoryRef = useRef();
   const [loading, setLoading] = useState(false);
+
   const [subcategories, setSubcategories] = useState([]);
-  console.log(targetCategory);
+
+  const [categoryPhotoFile, setCategoryPhotoFile] = useState(null);
+  const [categoryPhotoUrl, setCategoryPhotoUrl] = useState(null);
+
+  const [subcategoryPhotoUrl, setSubcategoryPhotoUrl] = useState(null);
+  const [subcategoryPhotoFile, setSubcategoryPhotoFile] = useState(null);
 
   useEffect(() => {
     setSubcategories(targetCategory?.subs);
@@ -42,8 +49,24 @@ const ManagerEditCategoryComponent = ({
   };
 
   const addSubcategory = () => {
-    setSubcategories([...subcategories, subCategoryRef.current.value]);
+    if (
+      !subCategoryRef.current.value ||
+      !subcategoryPhotoUrl ||
+      !subcategoryPhotoFile
+    )
+      return;
+    setSubcategories([
+      ...subcategories,
+      {
+        title: subCategoryRef.current.value,
+        photoUrl: subcategoryPhotoUrl,
+        photoFile: subcategoryPhotoFile,
+      },
+    ]);
+
     subCategoryRef.current.value = "";
+    setSubcategoryPhotoFile(null);
+    setSubcategoryPhotoUrl(null);
   };
 
   const deleteSubCategory = (i) => {
@@ -64,12 +87,29 @@ const ManagerEditCategoryComponent = ({
       if (!confirmation) return;
     }
     try {
-      setLoading(true);
-      const { data } = await axios.put("/api/category", {
-        id: targetCategory._id,
-        mainCategory,
-        subcategories,
+      //-------------------
+      const formData = new FormData();
+      // Append array of objects
+      subcategories.forEach((item, index) => {
+        if (item.photoFile) {
+          formData.append(`files[${index}][photoFile]`, item.photoFile);
+          formData.append(`files[${index}][title]`, item.title);
+        }
       });
+      subcategories.forEach((item, index) => {
+        if (!item.photoFile) {
+          formData.append(`oldfiles[${index}][photoUrl]`, item.photoUrl);
+          formData.append(`oldfiles[${index}][title]`, item.title);
+        }
+      });
+
+      if (categoryPhotoFile)
+        formData.append("mainPhotoFile", categoryPhotoFile);
+      else formData.append("mainPhotoUrl", targetCategory.photoUrl);
+      formData.append("mainTitle", categoryRef.current.value);
+      formData.append("id", targetCategory._id);
+      setLoading(true);
+      const { data } = await axios.put("/api/category", formData);
       if (data.success) {
         await refetchCategories();
         closeModal();
@@ -104,6 +144,38 @@ const ManagerEditCategoryComponent = ({
           defaultValue={targetCategory.title}
         />
       </div>
+      <div className="my-4 flex items-center gap-4">
+        <label htmlFor="photo" className="block min-w-44">
+          Category Photo:
+        </label>
+        <label
+          htmlFor="photo"
+          className="w-12 h-12 rounded-full border-dotted border cursor-pointer flex items-center justify-center"
+        >
+          <Image
+            width={60}
+            height={60}
+            className="rounded-full aspect-square"
+            alt="Profile picture for sign up"
+            src={categoryPhotoUrl || targetCategory.photoUrl}
+          />
+        </label>
+        <input
+          type="file"
+          accept="image/*"
+          id="photo"
+          name="photo"
+          onChange={(e) => {
+            if (e.target.files) {
+              const file = e.target.files[0];
+              setCategoryPhotoFile(file);
+              const photoUrl = URL.createObjectURL(file);
+              setCategoryPhotoUrl(photoUrl);
+            }
+          }}
+          hidden
+        />
+      </div>
       <div className="flex items-center gap-3 mt-4">
         <p className="min-w-44">Sub-category name:</p>
         <input
@@ -120,10 +192,55 @@ const ManagerEditCategoryComponent = ({
           <FaPlus />
         </button>
       </div>
+
+      <div className="my-4 flex items-center gap-4">
+        <label htmlFor="photo" className="block min-w-44">
+          Sub-category Photo:
+        </label>
+        <label
+          htmlFor="photo2"
+          className="w-12 h-12 rounded-full border-dotted border cursor-pointer flex items-center justify-center"
+        >
+          {subcategoryPhotoUrl ? (
+            <Image
+              width={60}
+              height={60}
+              className="rounded-full aspect-square"
+              alt="picture of sub category"
+              src={subcategoryPhotoUrl}
+            />
+          ) : (
+            <FaPlus />
+          )}
+        </label>
+        <input
+          type="file"
+          accept="image/*"
+          id="photo2"
+          name="photo2"
+          onChange={(e) => {
+            if (e.target.files) {
+              const file = e.target.files[0];
+              setSubcategoryPhotoFile(file);
+              const photoUrl = URL.createObjectURL(file);
+              setSubcategoryPhotoUrl(photoUrl);
+            }
+          }}
+          hidden
+        />
+      </div>
+
       <div className="flex items-center gap-3 flex-wrap mt-4">
-        {subcategories?.map((subcategory, i) => (
+        {subcategories.map((subcategory, i) => (
           <p className="border px-4 pr-1 py-1 flex items-center gap-3" key={i}>
-            {subcategory}
+            <Image
+              src={subcategory.photoUrl}
+              alt={subcategory.title}
+              height={30}
+              width={30}
+              className="aspect-square"
+            />
+            {subcategory.title}
             <FaTimes
               onClick={() => deleteSubCategory(i)}
               className="text-lg cursor-pointer duration-300 active:scale-90"
@@ -141,7 +258,9 @@ const ManagerEditCategoryComponent = ({
         </button>
         <button
           onClick={() => {
-            // setSubcategories([]);
+            setSubcategories([]);
+            setCategoryPhotoUrl(null);
+            setCategoryPhotoFile(null);
             closeModal();
           }}
           type="button"

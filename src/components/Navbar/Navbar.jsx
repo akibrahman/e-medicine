@@ -14,7 +14,6 @@ import { useRouter } from "next/navigation";
 
 const Navbar = () => {
   const { loading, user, userRefetch } = useContext(AuthContext);
-  console.log(loading || user);
   const route = useRouter();
   const [showLogoutMenu, setShowLogoutMenu] = useState(false);
 

@@ -1,4 +1,5 @@
 import axios from "axios";
+import Image from "next/image";
 import React, { useRef, useState } from "react";
 import { FaPlus, FaSpinner, FaTimes } from "react-icons/fa";
 import Modal from "react-modal";
@@ -34,11 +35,6 @@ const ManagerAddCategoryComponent = ({
   const [loading, setLoading] = useState(false);
   const [subcategories, setSubcategories] = useState([]);
 
-  const addSubcategory = () => {
-    setSubcategories([...subcategories, subCategoryRef.current.value]);
-    subCategoryRef.current.value = "";
-  };
-
   const deleteSubCategory = (i) => {
     setSubcategories((prevSubcategories) => {
       const newSubcategories = [...prevSubcategories];
@@ -58,10 +54,19 @@ const ManagerAddCategoryComponent = ({
     }
     try {
       setLoading(true);
-      const { data } = await axios.post("/api/category", {
-        mainCategory,
-        subcategories,
+      const formData = new FormData();
+      // Append array of objects
+      subcategories.forEach((item, index) => {
+        formData.append(`files[${index}][photoFile]`, item.photoFile);
+        formData.append(`files[${index}][title]`, item.title);
       });
+
+      // Append the additional single file data
+      formData.append("mainPhotoFile", categoryPhotoFile);
+
+      // Append the additional string
+      formData.append("mainTitle", categoryRef.current.value);
+      const { data } = await axios.post("/api/category", formData);
       if (data.success) {
         await refetchCategories();
         closeModal();
@@ -77,6 +82,33 @@ const ManagerAddCategoryComponent = ({
       setLoading(false);
     }
   };
+
+  const [categoryPhotoFile, setCategoryPhotoFile] = useState(null);
+  const [categoryPhotoUrl, setCategoryPhotoUrl] = useState(null);
+
+  const [subcategoryPhotoUrl, setSubcategoryPhotoUrl] = useState(null);
+  const [subcategoryPhotoFile, setSubcategoryPhotoFile] = useState(null);
+
+  const addSubcategory = () => {
+    if (
+      !subCategoryRef.current.value ||
+      !subcategoryPhotoUrl ||
+      !subcategoryPhotoFile
+    )
+      return;
+    setSubcategories([
+      ...subcategories,
+      {
+        title: subCategoryRef.current.value,
+        photoUrl: subcategoryPhotoUrl,
+        photoFile: subcategoryPhotoFile,
+      },
+    ]);
+    subCategoryRef.current.value = "";
+    setSubcategoryPhotoFile(null);
+    setSubcategoryPhotoUrl(null);
+  };
+
   return (
     <Modal
       isOpen={modalIsOpen}
@@ -95,6 +127,44 @@ const ManagerAddCategoryComponent = ({
           id=""
         />
       </div>
+
+      <div className="my-4 flex items-center gap-4">
+        <label htmlFor="photo" className="block min-w-44">
+          Category Photo:
+        </label>
+        <label
+          htmlFor="photo"
+          className="w-12 h-12 rounded-full border-dotted border cursor-pointer flex items-center justify-center"
+        >
+          {categoryPhotoUrl ? (
+            <Image
+              width={60}
+              height={60}
+              className="rounded-full aspect-square"
+              alt="Profile picture for sign up"
+              src={categoryPhotoUrl}
+            />
+          ) : (
+            <FaPlus />
+          )}
+        </label>
+        <input
+          type="file"
+          accept="image/*"
+          id="photo"
+          name="photo"
+          onChange={(e) => {
+            if (e.target.files) {
+              const file = e.target.files[0];
+              setCategoryPhotoFile(file);
+              const photoUrl = URL.createObjectURL(file);
+              setCategoryPhotoUrl(photoUrl);
+            }
+          }}
+          hidden
+        />
+      </div>
+
       <div className="flex items-center gap-3 mt-4">
         <p className="min-w-44">Sub-category name:</p>
         <input
@@ -111,10 +181,55 @@ const ManagerAddCategoryComponent = ({
           <FaPlus />
         </button>
       </div>
+
+      <div className="my-4 flex items-center gap-4">
+        <label htmlFor="photo" className="block min-w-44">
+          Sub-category Photo:
+        </label>
+        <label
+          htmlFor="photo2"
+          className="w-12 h-12 rounded-full border-dotted border cursor-pointer flex items-center justify-center"
+        >
+          {subcategoryPhotoUrl ? (
+            <Image
+              width={60}
+              height={60}
+              className="rounded-full aspect-square"
+              alt="picture of sub category"
+              src={subcategoryPhotoUrl}
+            />
+          ) : (
+            <FaPlus />
+          )}
+        </label>
+        <input
+          type="file"
+          accept="image/*"
+          id="photo2"
+          name="photo2"
+          onChange={(e) => {
+            if (e.target.files) {
+              const file = e.target.files[0];
+              setSubcategoryPhotoFile(file);
+              const photoUrl = URL.createObjectURL(file);
+              setSubcategoryPhotoUrl(photoUrl);
+            }
+          }}
+          hidden
+        />
+      </div>
+
       <div className="flex items-center gap-3 flex-wrap mt-4">
         {subcategories.map((subcategory, i) => (
           <p className="border px-4 pr-1 py-1 flex items-center gap-3" key={i}>
-            {subcategory}
+            <Image
+              src={subcategory.photoUrl}
+              alt={subcategory.title}
+              height={30}
+              width={30}
+              className="aspect-square"
+            />
+            {subcategory.title}
             <FaTimes
               onClick={() => deleteSubCategory(i)}
               className="text-lg cursor-pointer duration-300 active:scale-90"
@@ -131,7 +246,13 @@ const ManagerAddCategoryComponent = ({
           {loading ? <FaSpinner className="text-xl animate-spin" /> : "Save"}
         </button>
         <button
-          onClick={closeModal}
+          onClick={() => {
+            closeModal();
+            setCategoryPhotoFile(null);
+            setCategoryPhotoUrl(null);
+            setSubcategoryPhotoFile(null);
+            setSubcategoryPhotoUrl(null);
+          }}
           type="button"
           className="bg-white text-red-500 px-5 py-1 rounded-md font-semibold duration-300 active:scale-90"
         >

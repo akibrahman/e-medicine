@@ -4,7 +4,8 @@ const categorySchema = new mongoose.Schema({
   title: {
     type: String,
   },
-  subs: [],
+  photoUrl: String,
+  subs: [{}],
 });
 
 delete mongoose.models.categories;
