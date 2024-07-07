@@ -100,12 +100,20 @@ const Navbar = () => {
             >
               <p>{user.email}</p>
               <hr />
-              <button
-                onClick={logout}
-                className="border px-4 py-1 rounded-md duration-300 active:scale-90 mt-5"
-              >
-                Log out
-              </button>
+              <div className="flex items-center justify-center gap-3">
+                <Link
+                  href="/dashboard"
+                  className="border px-4 py-1 rounded-md duration-300 active:scale-90 mt-5"
+                >
+                  Dashboard
+                </Link>
+                <button
+                  onClick={logout}
+                  className="border px-4 py-1 rounded-md duration-300 active:scale-90 mt-5"
+                >
+                  Log out
+                </button>
+              </div>
             </div>
           </div>
         )}
