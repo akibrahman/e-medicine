@@ -35,6 +35,12 @@ const ManagerAddCategoryComponent = ({
   const [loading, setLoading] = useState(false);
   const [subcategories, setSubcategories] = useState([]);
 
+  const [categoryPhotoFile, setCategoryPhotoFile] = useState(null);
+  const [categoryPhotoUrl, setCategoryPhotoUrl] = useState(null);
+
+  const [subcategoryPhotoUrl, setSubcategoryPhotoUrl] = useState(null);
+  const [subcategoryPhotoFile, setSubcategoryPhotoFile] = useState(null);
+
   const deleteSubCategory = (i) => {
     setSubcategories((prevSubcategories) => {
       const newSubcategories = [...prevSubcategories];
@@ -71,6 +77,8 @@ const ManagerAddCategoryComponent = ({
         await refetchCategories();
         closeModal();
         setSubcategories([]);
+        setCategoryPhotoFile(null);
+        setCategoryPhotoUrl(null);
         toast.success("Category added successfully");
       } else {
         toast.error("Something went wrong, Try again!");
@@ -82,12 +90,6 @@ const ManagerAddCategoryComponent = ({
       setLoading(false);
     }
   };
-
-  const [categoryPhotoFile, setCategoryPhotoFile] = useState(null);
-  const [categoryPhotoUrl, setCategoryPhotoUrl] = useState(null);
-
-  const [subcategoryPhotoUrl, setSubcategoryPhotoUrl] = useState(null);
-  const [subcategoryPhotoFile, setSubcategoryPhotoFile] = useState(null);
 
   const addSubcategory = () => {
     if (
