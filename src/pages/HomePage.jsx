@@ -22,6 +22,8 @@ const HomePage = ({ categories, medicines }) => {
           activeMenu={activeMenu}
           activeCategory={activeCategory}
           medicines={medicines}
+          categories={categories}
+          setActiveMenu={setActiveMenu}
         />
       </div>
     </div>
