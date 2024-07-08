@@ -3,10 +3,10 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
 const DisplayPage = ({
-  medicines,
-  categories,
-  activeCategory,
-  activeMenu,
+  medicines = [],
+  categories = [],
+  activeCategory = "",
+  activeMenu = [],
   setActiveMenu,
 }) => {
   const [displayMedicines, setDisplayMedicines] = useState([...medicines]);

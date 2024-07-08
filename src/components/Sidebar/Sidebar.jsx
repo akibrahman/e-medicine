@@ -18,7 +18,7 @@ const Sidebar = ({
         Favourites
       </p>
       <div className="bg-secondary rounded-md font-medium">
-        {categories.map((category) => (
+        {categories?.map((category) => (
           <>
             <div
               onClick={() => {
@@ -57,7 +57,7 @@ const Sidebar = ({
                     : "max-h-0 pointer-events-none opacity-0"
                 }`}
               >
-                {category.subs.map((sub, i) => (
+                {category.subs?.map((sub, i) => (
                   <div
                     onClick={() => {
                       setActiveMenu(["subcategory", sub.title, 0]);

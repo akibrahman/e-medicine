@@ -19,10 +19,10 @@ const HomePage = ({ categories, medicines }) => {
       </div>
       <div className="col-span-3">
         <DisplayPage
-          activeMenu={activeMenu}
-          activeCategory={activeCategory}
           medicines={medicines}
           categories={categories}
+          activeCategory={activeCategory}
+          activeMenu={activeMenu}
           setActiveMenu={setActiveMenu}
         />
       </div>
