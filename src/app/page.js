@@ -1,20 +1,238 @@
+import DisplayPage from "@/components/DisplayPage/DisplayPage";
 import Sidebar from "@/components/Sidebar/Sidebar";
 import { dbConfig } from "@/dbConfig/dbConfig";
 import Category from "@/models/categoryModel";
+import HomePage from "@/pages/HomePage";
 import React from "react";
 
 await dbConfig();
 
 const page = async () => {
   const categories = await Category.find();
-  return (
-    <div className="grid grid-cols-4 h-[calc(100vh-84px)]">
-      <div className="border-r-2 border-[#424242]">
-        <Sidebar categories={categories} />
-      </div>
-      <div className="col-span-3"></div>
-    </div>
-  );
+  const medicines = [
+    {
+      name: "Aspirin",
+      photoUrl: "/medicine/medicine.jpg",
+      type: "Tablet",
+      description: "Used to reduce pain, fever, or inflammation.",
+      company_name: "PharmaCorp",
+      amount_per_strip: 10,
+      regular_price: 50,
+      discounted_price: 45,
+      variants: ["40mg", "50mg", "100mg"],
+      category: "Analgesics",
+    },
+    {
+      name: "Ibuprofen",
+      photoUrl: "/medicine/medicine.jpg",
+      type: "Tablet",
+      description:
+        "Nonsteroidal anti-inflammatory drug (NSAID) used to reduce fever and treat pain or inflammation.",
+      company_name: "PainAway Pharmaceuticals",
+      amount_per_strip: 10,
+      regular_price: 45,
+      discounted_price: 40,
+      variants: ["200mg", "400mg", "800mg"],
+      category: "Analgesics",
+    },
+    {
+      name: "Acetaminophen",
+      photoUrl: "/medicine/medicine.jpg",
+      type: "Tablet",
+      description: "Used to relieve pain and reduce fever.",
+      company_name: "HealthMeds",
+      amount_per_strip: 10,
+      regular_price: 30,
+      discounted_price: 25,
+      variants: ["500mg", "650mg", "1000mg"],
+      category: "Analgesics",
+    },
+    {
+      name: "Naproxen",
+      photoUrl: "/medicine/medicine.jpg",
+      type: "Tablet",
+      description:
+        "Nonsteroidal anti-inflammatory drug (NSAID) used to treat pain or inflammation.",
+      company_name: "ReliefMeds",
+      amount_per_strip: 10,
+      regular_price: 60,
+      discounted_price: 55,
+      variants: ["250mg", "500mg", "750mg"],
+      category: "Anti-inflammatory",
+    },
+    {
+      name: "Diclofenac",
+      photoUrl: "/medicine/medicine.jpg",
+      type: "Tablet",
+      description: "NSAID used to treat pain and inflammatory disorders.",
+      company_name: "InflammationCare",
+      amount_per_strip: 10,
+      regular_price: 40,
+      discounted_price: 35,
+      variants: ["50mg", "75mg", "100mg"],
+      category: "Anti-inflammatory",
+    },
+    {
+      name: "Meloxicam",
+      photoUrl: "/medicine/medicine.jpg",
+      type: "Tablet",
+      description: "Used to treat arthritis by reducing inflammation and pain.",
+      company_name: "JointRelief",
+      amount_per_strip: 10,
+      regular_price: 55,
+      discounted_price: 50,
+      variants: ["7.5mg", "15mg", "30mg"],
+      category: "Anti-inflammatory",
+    },
+    {
+      name: "Morphine",
+      photoUrl: "/medicine/medicine.jpg",
+      type: "Tablet",
+      description: "Opioid used to treat severe pain.",
+      company_name: "OpioidPharma",
+      amount_per_strip: 10,
+      regular_price: 75,
+      discounted_price: 70,
+      variants: ["10mg", "20mg", "30mg"],
+      category: "Opioids",
+    },
+    {
+      name: "Oxycodone",
+      photoUrl: "/medicine/medicine.jpg",
+      type: "Tablet",
+      description:
+        "Opioid pain medication used to treat moderate to severe pain.",
+      company_name: "PainMeds",
+      amount_per_strip: 10,
+      regular_price: 80,
+      discounted_price: 75,
+      variants: ["5mg", "10mg", "15mg"],
+      category: "Opioids",
+    },
+    {
+      name: "Fentanyl",
+      photoUrl: "/medicine/medicine.jpg",
+      type: "Tablet",
+      description:
+        "Opioid used to treat severe pain, especially after surgery.",
+      company_name: "StrongPainRelief",
+      amount_per_strip: 10,
+      regular_price: 85,
+      discounted_price: 80,
+      variants: ["50mcg", "100mcg", "200mcg"],
+      category: "Opioids",
+    },
+    {
+      name: "Cetirizine",
+      photoUrl: "/medicine/medicine.jpg",
+      type: "Tablet",
+      description: "Antihistamine used to relieve allergy symptoms.",
+      company_name: "AllergyRelief Ltd.",
+      amount_per_strip: 10,
+      regular_price: 40,
+      discounted_price: 35,
+      variants: ["5mg", "10mg", "20mg"],
+      category: "Antihistamines",
+    },
+    {
+      name: "Loratadine",
+      photoUrl: "/medicine/medicine.jpg",
+      type: "Tablet",
+      description: "Antihistamine used to treat allergy symptoms.",
+      company_name: "AllergyMeds",
+      amount_per_strip: 10,
+      regular_price: 35,
+      discounted_price: 30,
+      variants: ["5mg", "10mg", "20mg"],
+      category: "Antihistamines",
+    },
+    {
+      name: "Fexofenadine",
+      photoUrl: "/medicine/medicine.jpg",
+      type: "Tablet",
+      description: "Antihistamine used to relieve allergy symptoms.",
+      company_name: "HistamineBlock",
+      amount_per_strip: 10,
+      regular_price: 45,
+      discounted_price: 40,
+      variants: ["30mg", "60mg", "120mg"],
+      category: "Antihistamines",
+    },
+    {
+      name: "Pseudoephedrine",
+      photoUrl: "/medicine/medicine.jpg",
+      type: "Tablet",
+      description: "Decongestant used to relieve nasal congestion.",
+      company_name: "NasalClear",
+      amount_per_strip: 10,
+      regular_price: 25,
+      discounted_price: 20,
+      variants: ["30mg", "60mg", "120mg"],
+      category: "Decongestants",
+    },
+    {
+      name: "Phenylephrine",
+      photoUrl: "/medicine/medicine.jpg",
+      type: "Tablet",
+      description: "Decongestant used to relieve nasal and sinus congestion.",
+      company_name: "ClearSinus",
+      amount_per_strip: 10,
+      regular_price: 20,
+      discounted_price: 18,
+      variants: ["5mg", "10mg", "20mg"],
+      category: "Decongestants",
+    },
+    {
+      name: "Oxymetazoline",
+      photoUrl: "/medicine/medicine.jpg",
+      type: "Nasal Spray",
+      description: "Decongestant used to relieve nasal congestion.",
+      company_name: "NasalRelief",
+      amount_per_strip: 1,
+      regular_price: 15,
+      discounted_price: 12,
+      variants: ["0.05%", "0.1%"],
+      category: "Decongestants",
+    },
+    {
+      name: "Guaifenesin",
+      photoUrl: "/medicine/medicine.jpg",
+      type: "Syrup",
+      description: "Expectorant used to relieve chest congestion.",
+      company_name: "ColdFluPharma",
+      amount_per_strip: 1,
+      regular_price: 30,
+      discounted_price: 25,
+      variants: ["100ml", "200ml", "500ml"],
+      category: "Cold & Flu",
+    },
+    {
+      name: "Dextromethorphan",
+      photoUrl: "/medicine/medicine.jpg",
+      type: "Syrup",
+      description: "Cough suppressant used to relieve cough.",
+      company_name: "CoughRelief",
+      amount_per_strip: 1,
+      regular_price: 35,
+      discounted_price: 30,
+      variants: ["100ml", "200ml", "500ml"],
+      category: "Cold & Flu",
+    },
+    {
+      name: "Phenylephrine",
+      photoUrl: "/medicine/medicine.jpg",
+      type: "Tablet",
+      description: "Decongestant used to relieve nasal and sinus congestion.",
+      company_name: "ClearSinus",
+      amount_per_strip: 10,
+      regular_price: 20,
+      discounted_price: 18,
+      variants: ["5mg", "10mg", "20mg"],
+      category: "Cold & Flu",
+    },
+  ];
+
+  return <HomePage categories={categories} medicines={medicines} />;
 };
 
 export default page;

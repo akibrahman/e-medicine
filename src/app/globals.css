@@ -1,3 +1,38 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Custom ScrollBar  */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 12px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent; 
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #888; 
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+
+.custom-scrollbar::-webkit-scrollbar-button {
+  display: none; /* Hide the arrows */
+}
+
+/* Firefox */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #888 transparent; /* Thumb color and track color */
+}
+
+/* Hide scrollbar for IE and Edge */
+.custom-scrollbar {
+  -ms-overflow-style: none; 
+  scrollbar-width: none; /* Hide scrollbar for Edge */
+}
+/* Custom ScrollBar  */

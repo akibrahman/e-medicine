@@ -8,42 +8,7 @@ import ManagerEditCategoryComponent from "./ManagerEditCategoryComponent";
 import Image from "next/image";
 
 const ManageCategoriesComponent = ({ user }) => {
-  const categoriess = [
-    {
-      title: "Pain Relief",
-      subs: ["Analgesics", "Anti-inflammatory", "Opioids"],
-    },
-    {
-      title: "Allergy",
-      subs: ["Antihistamines", "Decongestants", "Nasal Sprays"],
-    },
-    {
-      title: "Cold & Flu",
-      subs: ["Cough Suppressants", "Expectorants", "Nasal Decongestants"],
-    },
-    {
-      title: "Digestive Health",
-      subs: ["Antacids", "Laxatives", "Probiotics"],
-    },
-    {
-      title: "Vitamins & Supplements",
-      subs: ["Multivitamins", "Minerals", "Herbal Supplements"],
-    },
-    {
-      title: "Skin Care",
-      subs: ["Acne Treatments", "Moisturizers", "Sunscreen"],
-    },
-    {
-      title: "Heart Health",
-      subs: ["Blood Pressure Medications", "Cholesterol Medications"],
-    },
-    {
-      title: "Mental Health",
-      subs: ["Antidepressants", "Anti-anxiety Medications", "Mood Stabilizers"],
-    },
-  ];
-
-  const { data: categories, refetch: refetchCategories } = useQuery({
+   const { data: categories, refetch: refetchCategories } = useQuery({
     queryKey: ["All Categories", "Admin Panel"],
     queryFn: async () => {
       try {
