@@ -107,6 +107,7 @@ const AddProductComponent = () => {
           description: "",
           company_name: "",
           amount_per_strip: "",
+          stock: "",
           category: "",
           variants: [{ mg: "", regular_price: "", discounted_price: "" }],
         });
@@ -127,6 +128,14 @@ const AddProductComponent = () => {
 
   return (
     <>
+      <button
+        onClick={async () => {
+          await axios.post("/api/test");
+          alert("Done");
+        }}
+      >
+        Test
+      </button>
       <p className="text-primary text-center underline text-xl my-5">
         Add Product Section
       </p>

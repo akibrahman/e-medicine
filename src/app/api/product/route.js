@@ -45,15 +45,15 @@ export const PUT = async (req) => {
     const product = JSON.parse(data.get("product"));
     const file = data.get("file");
     if (file) {
-      const existingProduct = await Product.findById(product._id);
-      if (existingProduct.photoUrl) {
-        const oldFilePath = join(
-          process.cwd(),
-          "public",
-          existingProduct.photoUrl
-        );
-        await unlink(oldFilePath);
-      }
+      // const existingProduct = await Product.findById(product._id);
+      // if (existingProduct.photoUrl) {
+      //   const oldFilePath = join(
+      //     process.cwd(),
+      //     "public",
+      //     existingProduct.photoUrl
+      //   );
+      //   await unlink(oldFilePath);
+      // }
 
       const bytes = await file.arrayBuffer();
       const buffer = Buffer.from(bytes);
