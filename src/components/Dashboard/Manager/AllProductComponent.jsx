@@ -1,11 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Image from "next/image";
-import React from "react";
+import Link from "next/link";
+import React, { useState } from "react";
+import { CgSpinner } from "react-icons/cg";
 import { FaDeleteLeft, FaPencil } from "react-icons/fa6";
+import { toast } from "react-toastify";
 
 const AllProductComponent = () => {
-  const { data: products } = useQuery({
+  const { data: products, refetch } = useQuery({
     queryKey: ["products", "manager dashboard"],
     queryFn: async () => {
       try {
@@ -18,6 +21,30 @@ const AllProductComponent = () => {
       }
     },
   });
+
+  const [loading, setLoading] = useState([false, ""]);
+
+  const deleteProduct = async (id) => {
+    const confirmed = confirm("Do you want to delete this product");
+    if (confirmed) {
+      setLoading([true, id]);
+      try {
+        const { data } = await axios.delete(`/api/product?id=${id}`);
+        if (data.success) {
+          await refetch();
+          toast.success("Product deleted successfully");
+        } else {
+          toast.error("Server error, Try again!");
+        }
+      } catch (error) {
+        console.log(error);
+        toast.error(error.response.data.msg || "Server error, Try again!");
+      } finally {
+        setLoading([false, ""]);
+      }
+    }
+  };
+
   if (!products) return;
   return (
     <div className="p-4">
@@ -50,11 +77,21 @@ const AllProductComponent = () => {
             <p className="w-[14%] text-center">{product.type}</p>
             <p className="w-[30%] text-center">{product.description}</p>
             <div className="flex items-center justify-center gap-2 w-[14%]">
-              <div className="w-9 h-9 bg-orange-500 text-white rounded-full flex items-center justify-center cursor-pointer duration-300 active:scale-90">
+              <Link
+                href={`/editProduct/${product._id}`}
+                className="w-9 h-9 bg-orange-500 text-white rounded-full flex items-center justify-center cursor-pointer duration-300 active:scale-90"
+              >
                 <FaPencil className="text-lg" />
-              </div>
-              <div className="w-9 h-9 bg-red-500 text-white rounded-full flex items-center justify-center cursor-pointer duration-300 active:scale-90">
-                <FaDeleteLeft className="text-lg" />
+              </Link>
+              <div
+                onClick={() => deleteProduct(product._id)}
+                className="w-9 h-9 bg-red-500 text-white rounded-full flex items-center justify-center cursor-pointer duration-300 active:scale-90"
+              >
+                {loading[0] && loading[1] == product._id ? (
+                  <CgSpinner className="text-lg animate-spin" />
+                ) : (
+                  <FaDeleteLeft className="text-lg" />
+                )}
               </div>
             </div>
           </div>

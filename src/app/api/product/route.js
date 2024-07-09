@@ -1,5 +1,5 @@
 import Product from "@/models/productModel";
-import { writeFile } from "fs/promises";
+import { unlink, writeFile } from "fs/promises";
 import { NextResponse } from "next/server";
 import { join } from "path";
 
@@ -39,9 +39,75 @@ export const POST = async (req) => {
   }
 };
 
-export const GET = async () => {
+export const PUT = async (req) => {
   try {
-    const products = await Product.find();
+    const data = await req.formData();
+    const product = JSON.parse(data.get("product"));
+    const file = data.get("file");
+    if (file) {
+      const existingProduct = await Product.findById(product._id);
+      if (existingProduct.photoUrl) {
+        const oldFilePath = join(
+          process.cwd(),
+          "public",
+          existingProduct.photoUrl
+        );
+        await unlink(oldFilePath);
+      }
+
+      const bytes = await file.arrayBuffer();
+      const buffer = Buffer.from(bytes);
+      const publicDirectory = join(process.cwd(), "public", "product");
+      const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
+      const name = `${timestamp}-${file.name}`;
+      const path = join(publicDirectory, name);
+      await writeFile(path, buffer);
+      const photoUrl = `/product/${name}`;
+      product.photoUrl = photoUrl;
+    }
+
+    await Product.findByIdAndUpdate(product._id, product);
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json(
+      {
+        success: false,
+        msg: error.msg || "Server error, Try again!",
+      },
+      { status: 500 }
+    );
+  }
+};
+export const DELETE = async (req) => {
+  try {
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get("id");
+    const existingProduct = await Product.findById(id);
+    const oldFilePath = join(process.cwd(), "public", existingProduct.photoUrl);
+    await unlink(oldFilePath);
+    await Product.findByIdAndDelete(id);
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json(
+      {
+        success: false,
+        msg: error.msg || "Server error, Try again!",
+      },
+      { status: 500 }
+    );
+  }
+};
+
+export const GET = async (req) => {
+  try {
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get("id");
+    let query = {};
+    if (id) query = { ...query, _id: id };
+    const products = await Product.find(query);
     return NextResponse.json({
       msg: "Products fetched successfully",
       success: true,
