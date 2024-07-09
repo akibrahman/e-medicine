@@ -23,6 +23,8 @@ import moment from "moment";
 import SuperAdminProfileComponent from "./Manager/SuperAdminProfileComponent";
 import { AuthContext } from "@/app/providers/ContextProvider";
 import ManageCategoriesComponent from "./Manager/ManageCategoriesComponent";
+import AddProductComponent from "./Manager/AddProductComponent";
+import AllProductComponent from "./Manager/AllProductComponent";
 
 const Dashboard = ({ user }) => {
   const route = useRouter();
@@ -185,6 +187,52 @@ const Dashboard = ({ user }) => {
                       </span>
                     </div>
                   </Link>
+                  <Link
+                    onClick={() => setSideBarShown(false)}
+                    href="/dashboard?displayData=addProduct"
+                  >
+                    <div
+                      className={`flex items-center p-2 rounded-lg text-white group select-none cursor-pointer ${
+                        displayData == "addProduct"
+                          ? "bg-gray-700"
+                          : "hover:bg-gray-700"
+                      }`}
+                    >
+                      <CgProfile
+                        className={`text-gray-400 md:text-xl ${
+                          displayData == "addProduct"
+                            ? "text-white"
+                            : "group-hover:text-white"
+                        }`}
+                      />
+                      <span className="ms-3 text-sm md:text-base">
+                        Add Products
+                      </span>
+                    </div>
+                  </Link>
+                  <Link
+                    onClick={() => setSideBarShown(false)}
+                    href="/dashboard?displayData=allProduct"
+                  >
+                    <div
+                      className={`flex items-center p-2 rounded-lg text-white group select-none cursor-pointer ${
+                        displayData == "allProduct"
+                          ? "bg-gray-700"
+                          : "hover:bg-gray-700"
+                      }`}
+                    >
+                      <CgProfile
+                        className={`text-gray-400 md:text-xl ${
+                          displayData == "allProduct"
+                            ? "text-white"
+                            : "group-hover:text-white"
+                        }`}
+                      />
+                      <span className="ms-3 text-sm md:text-base">
+                        All Products
+                      </span>
+                    </div>
+                  </Link>
                 </>
               )}
             </ul>
@@ -198,6 +246,10 @@ const Dashboard = ({ user }) => {
               <SuperAdminProfileComponent user={user} />
             ) : displayData == "categories" ? (
               <ManageCategoriesComponent user={user} />
+            ) : displayData == "addProduct" ? (
+              <AddProductComponent />
+            ) : displayData == "allProduct" ? (
+              <AllProductComponent />
             ) : null
           }
         </div>
