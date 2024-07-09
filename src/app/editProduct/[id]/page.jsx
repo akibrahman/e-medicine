@@ -53,6 +53,7 @@ const EditProduct = ({ params }) => {
       company_name: "",
       amount_per_strip: "",
       category: "",
+      Stock: "",
       variants: [{ mg: "", regular_price: "", discounted_price: "" }],
     }
   );
@@ -67,6 +68,7 @@ const EditProduct = ({ params }) => {
         company_name: "",
         amount_per_strip: "",
         category: "",
+        Stock: "",
         variants: [{ mg: "", regular_price: "", discounted_price: "" }],
       }
     );
@@ -141,7 +143,7 @@ const EditProduct = ({ params }) => {
   };
 
   const [file, setFile] = useState(null);
-
+  console.log(productDB);
   if (!categories) return;
   if (!productDB) return;
 
@@ -151,13 +153,13 @@ const EditProduct = ({ params }) => {
       className="max-w-3xl mx-auto p-8 bg-white shadow-md rounded my-10 text-primary relative"
     >
       <div className="mb-6 flex items-center gap-3">
-      <Link
-        href="/dashboard?displayData=allProduct"
-        className="w-10 h-10 flex items-center justify-center text-white bg-primary rounded-full duration-300 active:scale-90 hover:scale-105 cursor-pointer"
-      >
-        <FaArrowLeft className="text-lg" />
-      </Link>
-      <h2 className="text-2xl font-bold">Update Product</h2>
+        <Link
+          href="/dashboard?displayData=allProduct"
+          className="w-10 h-10 flex items-center justify-center text-white bg-primary rounded-full duration-300 active:scale-90 hover:scale-105 cursor-pointer"
+        >
+          <FaArrowLeft className="text-lg" />
+        </Link>
+        <h2 className="text-2xl font-bold">Update Product</h2>
       </div>
 
       <div className="mb-4">
@@ -250,6 +252,18 @@ const EditProduct = ({ params }) => {
           type="text"
           name="amount_per_strip"
           value={product.amount_per_strip}
+          onChange={handleChange}
+          className="mt-1 p-2 w-full border rounded outline-none"
+          required
+        />
+      </div>
+
+      <div className="mb-4">
+        <label className="block text-gray-700">Stock:</label>
+        <input
+          type="text"
+          name="stock"
+          value={product.stock}
           onChange={handleChange}
           className="mt-1 p-2 w-full border rounded outline-none"
           required

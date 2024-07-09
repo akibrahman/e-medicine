@@ -53,12 +53,13 @@ const AllProductComponent = () => {
       </p>
       <div className="mt-5 flex flex-col gap-3">
         <div className="flex items-center justify-between px-3 py-2 bg-primary font-medium text-white rounded">
-          <p className="w-[14%] text-center">Image</p>
-          <p className="w-[14%] text-center">Name</p>
-          <p className="w-[14%] text-center">Company Name</p>
-          <p className="w-[14%] text-center">Type</p>
+          <p className="w-[12%] text-center">Image</p>
+          <p className="w-[12%] text-center">Name</p>
+          <p className="w-[12%] text-center">Company Name</p>
+          <p className="w-[12%] text-center">Type</p>
           <p className="w-[30%] text-center">Description</p>
-          <p className="w-[14%] text-center">Actiion</p>
+          <p className="w-[10%] text-center">Stock</p>
+          <p className="w-[12%] text-center">Actiion</p>
         </div>
         {products.map((product) => (
           <div
@@ -70,13 +71,14 @@ const AllProductComponent = () => {
               alt={product.name}
               height={80}
               width={80}
-              className="aspect-video w-[14%] mx-auto"
+              className="aspect-video w-[12%] mx-auto"
             />
-            <p className="w-[14%] text-center">{product.name}</p>
-            <p className="w-[14%] text-center">{product.company_name}</p>
-            <p className="w-[14%] text-center">{product.type}</p>
+            <p className="w-[12%] text-center">{product.name}</p>
+            <p className="w-[12%] text-center">{product.company_name}</p>
+            <p className="w-[12%] text-center">{product.type}</p>
             <p className="w-[30%] text-center">{product.description}</p>
-            <div className="flex items-center justify-center gap-2 w-[14%]">
+            <p className="w-[10%] text-center">{product.stock}</p>
+            <div className="flex items-center justify-center gap-2 w-[12%]">
               <Link
                 href={`/editProduct/${product._id}`}
                 className="w-9 h-9 bg-orange-500 text-white rounded-full flex items-center justify-center cursor-pointer duration-300 active:scale-90"

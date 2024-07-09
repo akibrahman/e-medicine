@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import Link from "next/link";
 import React, { useState } from "react";
 
 const MedicineCard = ({ medicine }) => {
@@ -12,7 +13,7 @@ const MedicineCard = ({ medicine }) => {
       className="shadow-xl p-3 cursor-pointer rounded-md"
     >
       <div
-        className={`relative rounded-md after:duration-300 ease-linear after:w-full after:bg-[rgba(0,0,0,0.5)] after:absolute after:top-0 after:rounded-t-md ${
+        className={`relative rounded-md after:duration-200 ease-linear after:w-full after:bg-[rgba(0,0,0,0.5)] after:absolute after:top-0 after:rounded-t-md ${
           isHovered[0] && isHovered[1] == medicine.name
             ? "after:h-full"
             : "after:h-0"
@@ -23,12 +24,12 @@ const MedicineCard = ({ medicine }) => {
           alt={medicine.name}
           width={150}
           height={150}
-          className=""
+          className="aspect-video mx-auto"
         />
       </div>
       <div className="relative">
         <div
-          className={`absolute text-white font-medium p-3 rounded-b-md top-0 w-full z-10 bg-[#353535] duration-300 ease-linear ${
+          className={`absolute text-white font-medium p-3 rounded-b-md top-0 w-full z-10 bg-[#353535] duration-200 ease-linear ${
             isHovered[0] && isHovered[1] == medicine.name
               ? "h-full opacity-100"
               : "h-0 opacity-0"
@@ -52,10 +53,13 @@ const MedicineCard = ({ medicine }) => {
               </p>
             ))}
           </div>
-          <button className="border border-primary w-full text-center text-primary font-medium py-1 rounded-lg duration-300 active:scale-90 my-2">
+          <Link
+            href={`/product/${medicine._id}`}
+            className="border border-primary w-full text-center font-medium py-1 rounded-lg duration-200 active:scale-90 my-2 inline-block text-white"
+          >
             View Details
-          </button>
-          <button className="bg-primary w-full text-center text-white font-medium py-1 rounded-lg duration-300 active:scale-90 mb-2">
+          </Link>
+          <button className="bg-primary w-full text-center text-white font-medium py-1 rounded-lg duration-200 active:scale-90 mb-2">
             Add to Cart
           </button>
         </div>
@@ -91,7 +95,7 @@ const MedicineCard = ({ medicine }) => {
             % OFF
           </p>
         </div>
-        <button className="bg-primary w-full text-center text-white font-medium py-1 rounded-lg duration-300 active:scale-90">
+        <button className="bg-primary w-full text-center text-white font-medium py-1 rounded-lg duration-200 active:scale-90">
           Add to Cart
         </button>
       </div>

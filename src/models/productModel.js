@@ -8,6 +8,7 @@ const productSchema = new mongoose.Schema({
   company_name: String,
   amount_per_strip: String,
   category: String,
+  stock: String,
   variants: [{}],
 });
 

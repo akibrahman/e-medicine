@@ -4,6 +4,8 @@ import TanstackProvider from "./providers/TanstackProvider";
 import ContextProvider from "./providers/ContextProvider";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "swiper/css";
+import "swiper/css/pagination";
 import Navbar from "@/components/Navbar/Navbar";
 
 const poppins = Poppins({

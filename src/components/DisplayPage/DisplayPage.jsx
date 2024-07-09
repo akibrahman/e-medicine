@@ -56,9 +56,8 @@ const DisplayPage = ({
           {showMedicine ? "Medicines" : "Sub-Categories"}
         </p>
         <p className="text-primary underline cursor-pointer font-semibold">
-          See All
+          See All - {displayMedicines.length}
         </p>
-        <p>{displayMedicines.length}</p>
       </div>
       {showMedicine && (
         <div className="grid grid-cols-4 gap-5 p-4">
