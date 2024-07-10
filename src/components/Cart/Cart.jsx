@@ -12,8 +12,12 @@ import { PiArrowSquareOut } from "react-icons/pi";
 import { TbCoinTaka } from "react-icons/tb";
 
 const Cart = () => {
-  const { carts, removeItemFromCart, updateItemCount } =
-    useContext(AuthContext);
+  const {
+    carts = [],
+    removeItemFromCart = () => {},
+    updateItemCount = () => {},
+  } = useContext(AuthContext) || {};
+
   const [showCart, setShowCart] = useState(false);
 
   const totalItem = carts.reduce((a, c) => a + parseInt(c.count), 0);
