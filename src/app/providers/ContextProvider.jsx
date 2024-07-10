@@ -36,11 +36,6 @@ const ContextProvider = ({ children }) => {
     }
   }, [cartReloader]);
 
-  // const addItem = (item) => {
-  //   localStorage.setItem("carts", JSON.stringify([...carts, item]));
-  //   setCartReloader(!cartReloader);
-  // };
-
   const addItem = (item) => {
     const updatedCarts = [...carts];
     const existingItemIndex = updatedCarts.findIndex(
@@ -61,18 +56,51 @@ const ContextProvider = ({ children }) => {
     setCartReloader(!cartReloader);
   };
 
-  const removeItem = (index) => {
-    const newItems = carts.filter((_, i) => i !== index);
+  const updateItemCount = (id, mg, newCount) => {
+    if (newCount == 0) {
+      removeItemFromCart(id, mg);
+    } else {
+      const updatedCarts = carts.map((cartItem) => {
+        if (cartItem._id === id && cartItem.variants.mg === mg) {
+          return { ...cartItem, count: newCount };
+        }
+        return cartItem;
+      });
+
+      localStorage.setItem("carts", JSON.stringify(updatedCarts));
+      setCarts(updatedCarts);
+      setCartReloader(!cartReloader);
+    }
+  };
+
+  const removeItemFromCart = (id, mg) => {
+    const confirmed = confirm(
+      "Do you want to delete this item from your cart?"
+    );
+    if (!confirmed) return;
+    const newItems = carts.filter(
+      (cartItem) => !(cartItem._id === id && cartItem.variants.mg === mg)
+    );
     localStorage.setItem("carts", JSON.stringify(newItems));
+    setCarts(newItems);
     setCartReloader(!cartReloader);
   };
+
   //! Localstorage Management Section -End---------------------------------
 
   const addToCart = async (product) => {
     addItem({ ...product });
   };
 
-  const info = { user, loading, userRefetch, addToCart, carts };
+  const info = {
+    user,
+    loading,
+    userRefetch,
+    addToCart,
+    carts,
+    removeItemFromCart,
+    updateItemCount,
+  };
   return <AuthContext.Provider value={info}>{children}</AuthContext.Provider>;
 };
 
