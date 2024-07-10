@@ -128,14 +128,6 @@ const AddProductComponent = () => {
 
   return (
     <>
-      <button
-        onClick={async () => {
-          await axios.post("/api/test");
-          alert("Done");
-        }}
-      >
-        Test
-      </button>
       <p className="text-primary text-center underline text-xl my-5">
         Add Product Section
       </p>

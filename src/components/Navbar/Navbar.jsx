@@ -13,7 +13,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 
 const Navbar = () => {
-  const { loading, user, userRefetch } = useContext(AuthContext);
+  const { loading, user, userRefetch, carts } = useContext(AuthContext);
   const route = useRouter();
   const [showLogoutMenu, setShowLogoutMenu] = useState(false);
 
@@ -66,7 +66,7 @@ const Navbar = () => {
         </div>
         <div className="p-2.5 rounded-full bg-primary relative">
           <p className="text-[10px] text-white bg-red-600 rounded-full absolute top-0 right-0 h-3.5 w-3.5 flex items-center justify-center">
-            4
+            {carts.reduce((a, c) => a + parseInt(c.count), 0)}
           </p>
           <BsCart3 className="text-white text-lg font-bold" />
         </div>

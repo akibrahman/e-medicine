@@ -1,13 +1,16 @@
 "use client";
+import Cart from "@/components/Cart/Cart";
 import DisplayPage from "@/components/DisplayPage/DisplayPage";
 import Sidebar from "@/components/Sidebar/Sidebar";
 import React, { useState } from "react";
+import { FaCartPlus } from "react-icons/fa";
 
 const HomePage = ({ categories, medicines }) => {
   const [activeMenu, setActiveMenu] = useState([]);
   const [activeCategory, setActiveCategory] = useState("");
   return (
-    <div className="grid grid-cols-4 h-[calc(100vh-89px)]">
+    <div className="grid grid-cols-4 h-[calc(100vh-89px)] relative">
+      <Cart />
       <div className="border-r-2 border-[#424242]">
         <Sidebar
           categories={categories}

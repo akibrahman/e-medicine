@@ -1,9 +1,11 @@
 "use client";
+import { AuthContext } from "@/app/providers/ContextProvider";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 const MedicineCard = ({ medicine }) => {
+  const { addToCart } = useContext(AuthContext);
   const [variantIndex, setVariantIndex] = useState(0);
   const [isHovered, setIsHovered] = useState([false, ""]);
   return (
@@ -59,7 +61,16 @@ const MedicineCard = ({ medicine }) => {
           >
             View Details
           </Link>
-          <button className="bg-primary w-full text-center text-white font-medium py-1 rounded-lg duration-200 active:scale-90 mb-2">
+          <button
+            onClick={() =>
+              addToCart({
+                ...medicine,
+                count: 1,
+                variants: { ...medicine.variants[variantIndex] },
+              })
+            }
+            className="bg-primary w-full text-center text-white font-medium py-1 rounded-lg duration-200 active:scale-90 mb-2"
+          >
             Add to Cart
           </button>
         </div>
@@ -95,7 +106,10 @@ const MedicineCard = ({ medicine }) => {
             % OFF
           </p>
         </div>
-        <button className="bg-primary w-full text-center text-white font-medium py-1 rounded-lg duration-200 active:scale-90">
+        <button
+          onClick={() => addToCart({ ...medicine, count: 1 })}
+          className="bg-primary w-full text-center text-white font-medium py-1 rounded-lg duration-200 active:scale-90"
+        >
           Add to Cart
         </button>
       </div>
