@@ -6,20 +6,29 @@ import axios from "axios";
 import { CgSpinner } from "react-icons/cg";
 import ManagerEditCategoryComponent from "./ManagerEditCategoryComponent";
 import Image from "next/image";
+import Pagination from "@/utils/Pagination";
 
 const ManageCategoriesComponent = ({ user }) => {
-   const { data: categories, refetch: refetchCategories } = useQuery({
-    queryKey: ["All Categories", "Admin Panel"],
-    queryFn: async () => {
+  const [page, setPage] = useState(0);
+  const [count, setCount] = useState(0);
+
+  const { data: categories, refetch: refetchCategories } = useQuery({
+    queryKey: ["All Categories", "Admin Panel", page],
+    queryFn: async ({ queryKey }) => {
       try {
-        const { data } = await axios.get("/api/category");
-        if (data.success) return data.categories;
-        else return null;
+        const { data } = await axios.get(`/api/category?page=${queryKey[2]}`);
+        if (data.success) {
+          setCount(data.count);
+          return data.categories;
+        } else return null;
       } catch (error) {
         return null;
       }
     },
   });
+
+  const totalPages = Math.ceil(count / 5);
+  const pages = [...new Array(totalPages ? totalPages : 0).fill(0)];
 
   const [modalIsOpen, setIsOpen] = useState(false);
   const openModal = () => {
@@ -142,6 +151,12 @@ const ManageCategoriesComponent = ({ user }) => {
             <CgSpinner className="text-2xl text-primary animate-spin" />
           </div>
         )}
+        <Pagination
+          page={page}
+          setPage={setPage}
+          pages={pages}
+          totalPages={totalPages}
+        />
       </div>
     </>
   );

@@ -105,13 +105,20 @@ export const GET = async (req) => {
   try {
     const { searchParams } = new URL(req.url);
     const id = searchParams.get("id");
+    const pageNumber = parseInt(searchParams.get("page"));
+    const itemPerPage = 5;
     let query = {};
     if (id) query = { ...query, _id: id };
-    const products = await Product.find(query);
+    const products = await Product.find(query)
+      .skip(pageNumber * itemPerPage)
+      .limit(itemPerPage);
+    const count = await Product.find(query);
+    console.log(count);
     return NextResponse.json({
       msg: "Products fetched successfully",
       success: true,
       products,
+      count: count.length,
     });
   } catch (error) {
     console.log(error);

@@ -194,13 +194,20 @@ export const PUT = async (req) => {
   }
 };
 
-export const GET = async () => {
+export const GET = async (req) => {
   try {
-    const categories = await Category.find();
+    const { searchParams } = new URL(req.url);
+    const pageNumber = parseInt(searchParams.get("page"));
+    const itemPerPage = 5;
+    const categories = await Category.find()
+      .skip(pageNumber * itemPerPage)
+      .limit(itemPerPage);
+    const count = await Category.find();
     return NextResponse.json({
       msg: "Categories fetched successfully",
       success: true,
       categories,
+      count: count.length,
     });
   } catch (error) {
     console.log(error);

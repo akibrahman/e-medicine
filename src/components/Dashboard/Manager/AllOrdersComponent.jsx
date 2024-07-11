@@ -11,15 +11,21 @@ import { toast } from "react-toastify";
 import { set } from "mongoose";
 import OrderDetailsProductCard from "@/components/OrderDetailsProductCard/OrderDetailsProductCard";
 import Swal from "sweetalert2";
+import Pagination from "@/utils/Pagination";
 
 const AllOrdersComponent = () => {
+  const [page, setPage] = useState(0);
+  const [count, setCount] = useState(0);
+
   const { data: orders, refetch } = useQuery({
-    queryKey: ["orders", "manager dashboard"],
-    queryFn: async () => {
+    queryKey: ["orders", "manager dashboard", page],
+    queryFn: async ({queryKey}) => {
       try {
-        const { data } = await axios.get("/api/order");
-        if (data.success) return data.orders;
-        else return null;
+        const { data } = await axios.get(`/api/order?page=${queryKey[2]}`);
+        if (data.success) {
+          setCount(data.count);
+          return data.orders;
+        } else return null;
       } catch (error) {
         console.log(error);
         return null;
@@ -184,6 +190,9 @@ const AllOrdersComponent = () => {
       }
     });
   };
+
+  const totalPages = Math.ceil(count / 5);
+  const pages = [...new Array(totalPages ? totalPages : 0).fill(0)];
 
   if (!orders) return <Loader />;
   return (
@@ -355,6 +364,12 @@ const AllOrdersComponent = () => {
             </div>
           ))}
         </div>
+        <Pagination
+          page={page}
+          setPage={setPage}
+          pages={pages}
+          totalPages={totalPages}
+        />
       </div>
     </>
   );

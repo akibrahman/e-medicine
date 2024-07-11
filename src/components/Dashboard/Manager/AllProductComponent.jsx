@@ -1,3 +1,5 @@
+import Loader from "@/components/Loader/Loader";
+import Pagination from "@/utils/Pagination";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Image from "next/image";
@@ -8,13 +10,17 @@ import { FaDeleteLeft, FaPencil } from "react-icons/fa6";
 import { toast } from "react-toastify";
 
 const AllProductComponent = () => {
+  const [page, setPage] = useState(0);
+  const [count, setCount] = useState(0);
   const { data: products, refetch } = useQuery({
-    queryKey: ["products", "manager dashboard"],
+    queryKey: ["products", "manager dashboard", page],
     queryFn: async () => {
       try {
-        const { data } = await axios.get("/api/product");
-        if (data.success) return data.products;
-        else return null;
+        const { data } = await axios.get(`/api/product?page=${page}`);
+        if (data.success) {
+          setCount(data.count);
+          return data.products;
+        } else return null;
       } catch (error) {
         console.log(error);
         return null;
@@ -45,7 +51,10 @@ const AllProductComponent = () => {
     }
   };
 
-  if (!products) return;
+  const totalPages = Math.ceil(count / 5);
+  const pages = [...new Array(totalPages ? totalPages : 0).fill(0)];
+
+  if (!products) return <Loader />;
   return (
     <div className="p-4">
       <p className="text-primary text-center underline text-xl">
@@ -61,11 +70,12 @@ const AllProductComponent = () => {
           <p className="w-[10%] text-center">Stock</p>
           <p className="w-[12%] text-center">Actiion</p>
         </div>
-        {products.map((product) => (
+        {products.map((product, i) => (
           <div
             key={product._id}
             className="flex items-center justify-between px-3 py-2 text-primary font-medium shadow shadow-primary rounded"
           >
+            <p>{i + 1}</p>
             <Image
               src={product.photoUrl}
               alt={product.name}
@@ -99,6 +109,12 @@ const AllProductComponent = () => {
           </div>
         ))}
       </div>
+      <Pagination
+        page={page}
+        setPage={setPage}
+        pages={pages}
+        totalPages={totalPages}
+      />
     </div>
   );
 };

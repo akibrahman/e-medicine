@@ -57,6 +57,8 @@ export const GET = async (req) => {
     const { searchParams } = new URL(req.url);
     const userId = searchParams.get("userId");
     const id = searchParams.get("id");
+    const pageNumber = parseInt(searchParams.get("page"));
+    const itemPerPage = 5;
 
     let aggrigate = [
       {
@@ -79,11 +81,17 @@ export const GET = async (req) => {
     if (id)
       aggrigate.push({ $match: { _id: new mongoose.Types.ObjectId(id) } });
 
-    const orders = await Order.aggregate(aggrigate);
+    const orders = await Order.aggregate(aggrigate)
+      .skip(pageNumber * itemPerPage)
+      .limit(itemPerPage);
+
+    const count = await Order.aggregate(aggrigate);
+
     return NextResponse.json({
       msg: "Orders fetched successfully",
       success: true,
       orders,
+      count: count.length,
     });
   } catch (error) {
     console.log(error);
