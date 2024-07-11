@@ -1,6 +1,7 @@
 "use client";
 import { AuthContext } from "@/app/providers/ContextProvider";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React, { useContext, useEffect, useState } from "react";
 import { FaCartPlus, FaTimes } from "react-icons/fa";
 import {
@@ -10,10 +11,13 @@ import {
 } from "react-icons/md";
 import { PiArrowSquareOut } from "react-icons/pi";
 import { TbCoinTaka } from "react-icons/tb";
+import Swal from "sweetalert2";
 
 const Cart = () => {
+  const route = useRouter();
   const {
     carts = [],
+    user = [],
     removeItemFromCart = () => {},
     updateItemCount = () => {},
   } = useContext(AuthContext) || {};
@@ -191,7 +195,28 @@ const Cart = () => {
             <p className="">৳{totalPrice}</p>
           </div>
 
-          <div className="bg-primary text-white font-semibold rounded-md px-4 py-2 flex items-center justify-between cursor-pointer duration-300 active:scale-90">
+          <div
+            onClick={() => {
+              if (!user) {
+                Swal.fire({
+                  title: "You are not logged in",
+                  text: "Please login to proceed to checkout",
+                  icon: "info",
+                  showCancelButton: true,
+                  confirmButtonColor: "#3085d6",
+                  cancelButtonColor: "#d33",
+                  confirmButtonText: "Login",
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    route.push("/login");
+                  }
+                });
+              } else {
+                route.push("/checkout");
+              }
+            }}
+            className="bg-primary text-white font-semibold rounded-md px-4 py-2 flex items-center justify-between cursor-pointer duration-300 active:scale-90"
+          >
             <p className="text-sm">Proceed to Checkout</p>
             <PiArrowSquareOut className="text-xl" />
           </div>

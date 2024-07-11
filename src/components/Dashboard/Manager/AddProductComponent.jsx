@@ -1,4 +1,5 @@
 "use client";
+import Loader from "@/components/Loader/Loader";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Image from "next/image";
@@ -124,7 +125,7 @@ const AddProductComponent = () => {
   const [file, setFile] = useState(null);
   const [url, setUrl] = useState(null);
 
-  if (!categories) return;
+  if (!categories) return <Loader />;
 
   return (
     <>

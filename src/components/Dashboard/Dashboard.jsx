@@ -25,6 +25,7 @@ import { AuthContext } from "@/app/providers/ContextProvider";
 import ManageCategoriesComponent from "./Manager/ManageCategoriesComponent";
 import AddProductComponent from "./Manager/AddProductComponent";
 import AllProductComponent from "./Manager/AllProductComponent";
+import AllOrdersComponent from "./Manager/AllOrdersComponent";
 
 const Dashboard = ({ user }) => {
   const route = useRouter();
@@ -233,6 +234,29 @@ const Dashboard = ({ user }) => {
                       </span>
                     </div>
                   </Link>
+                  <Link
+                    onClick={() => setSideBarShown(false)}
+                    href="/dashboard?displayData=allOrders"
+                  >
+                    <div
+                      className={`flex items-center p-2 rounded-lg text-white group select-none cursor-pointer ${
+                        displayData == "allOrders"
+                          ? "bg-gray-700"
+                          : "hover:bg-gray-700"
+                      }`}
+                    >
+                      <CgProfile
+                        className={`text-gray-400 md:text-xl ${
+                          displayData == "allOrders"
+                            ? "text-white"
+                            : "group-hover:text-white"
+                        }`}
+                      />
+                      <span className="ms-3 text-sm md:text-base">
+                        All Orders
+                      </span>
+                    </div>
+                  </Link>
                 </>
               )}
             </ul>
@@ -250,6 +274,8 @@ const Dashboard = ({ user }) => {
               <AddProductComponent />
             ) : displayData == "allProduct" ? (
               <AllProductComponent />
+            ) : displayData == "allOrders" ? (
+              <AllOrdersComponent />
             ) : null
           }
         </div>

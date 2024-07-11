@@ -86,6 +86,12 @@ const ContextProvider = ({ children }) => {
     setCartReloader(!cartReloader);
   };
 
+  const clearCart = () => {
+    localStorage.removeItem("carts");
+    setCarts([]);
+    setCartReloader(!cartReloader);
+  };
+
   //! Localstorage Management Section -End---------------------------------
 
   const addToCart = async (product) => {
@@ -100,6 +106,7 @@ const ContextProvider = ({ children }) => {
     carts,
     removeItemFromCart,
     updateItemCount,
+    clearCart,
   };
   return <AuthContext.Provider value={info}>{children}</AuthContext.Provider>;
 };
