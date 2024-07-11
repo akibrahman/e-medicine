@@ -52,7 +52,7 @@ const Cart = () => {
         </div>
       </div>
       <div
-        className={`fixed right-0 top-1/2 -translate-y-1/2 text-primary shadow-lg shadow-primary bg-white z-50 min-w-10 rounded-md h-screen duration-300 ${
+        className={`fixed right-0 top-1/2 -translate-y-1/2 text-primary shadow-lg shadow-primary bg-white z-50 min-w-10 rounded-md h-[90vh] duration-300 ${
           showCart ? "translate-x-0" : "translate-x-full"
         }`}
       >
