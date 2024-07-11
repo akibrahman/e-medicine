@@ -105,10 +105,12 @@ export const GET = async (req) => {
   try {
     const { searchParams } = new URL(req.url);
     const id = searchParams.get("id");
+    const category = searchParams.get("category");
     const pageNumber = parseInt(searchParams.get("page"));
     const itemPerPage = 5;
     let query = {};
     if (id) query = { ...query, _id: id };
+    if (category) query = { ...query, category: category };
     const products = await Product.find(query)
       .skip(pageNumber * itemPerPage)
       .limit(itemPerPage);

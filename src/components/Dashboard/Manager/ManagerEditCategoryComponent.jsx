@@ -69,12 +69,35 @@ const ManagerEditCategoryComponent = ({
     setSubcategoryPhotoUrl(null);
   };
 
-  const deleteSubCategory = (i) => {
-    setSubcategories((prevSubcategories) => {
-      const newSubcategories = [...prevSubcategories];
-      newSubcategories.splice(i, 1);
-      return newSubcategories;
-    });
+  const deleteSubCategory = async (i) => {
+    console.log(subcategories[i]);
+    try {
+      const { data } = await axios.get(
+        `/api/product?category=${subcategories[i].title}`
+      );
+      if (data.success) {
+        console.log(data.products);
+        if (data.products.length > 0) {
+          toast.info(
+            "Products found under this sub-category, First manage those products."
+          );
+          return;
+        } else {
+          setSubcategories((prevSubcategories) => {
+            const newSubcategories = [...prevSubcategories];
+            newSubcategories.splice(i, 1);
+            return newSubcategories;
+          });
+        }
+      } else {
+        toast.error("Server error, Try again!");
+        return;
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Server error, Try again!");
+      return;
+    }
   };
 
   const saveCategory = async () => {

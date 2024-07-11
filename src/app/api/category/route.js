@@ -1,6 +1,7 @@
 import { dbConfig } from "@/dbConfig/dbConfig";
 import Category from "@/models/categoryModel";
-import { writeFile } from "fs/promises";
+import Product from "@/models/productModel";
+import { unlink, writeFile } from "fs/promises";
 import { NextResponse } from "next/server";
 import { join } from "path";
 
@@ -108,8 +109,18 @@ export const PUT = async (req) => {
 
     const subDatas = await Promise.all(subDatasPromises);
 
-    console.log(subDatas);
+    if (subDatas.length > 0) {
+      const firstSubCategory = subDatas[0].title;
+      await Product.updateMany(
+        { category: mainTitle },
+        { category: firstSubCategory }
+      );
+    }
 
+    // return NextResponse.json({
+    //   msg: "Category updated successfully",
+    //   success: true,
+    // });
     const newSubs = await Promise.all(
       subDatas.map(async (sub) => {
         const bytes = await sub.photoFile.arrayBuffer();
@@ -213,6 +224,50 @@ export const GET = async (req) => {
     return NextResponse.json(
       {
         msg: error.msg || "Server error",
+        success: false,
+      },
+      { status: 500 }
+    );
+  }
+};
+
+export const PATCH = async (req) => {
+  try {
+    const subs = await req.json();
+    const subC = subs.map((sub) => sub.title);
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get("id");
+    const categoryTitle = searchParams.get("categoryTitle");
+    let isExists = false;
+
+    await Promise.all(
+      subC.map(async (sub) => {
+        const isexistsT = await Product.find({ category: sub });
+        if (isexistsT.length > 0) {
+          isExists = true;
+        }
+      })
+    );
+
+    const isexistsM = await Product.find({ category: categoryTitle });
+    if (isexistsM.length > 0 || isExists) {
+      throw new Error(
+        "Products found under this Category, First manage those products."
+      );
+    }
+    const toBeDeleted = await Category.findById(id);
+    await Category.findByIdAndDelete(id);
+    const oldFilePath = join(process.cwd(), "public", toBeDeleted.photoUrl);
+    await unlink(oldFilePath);
+    return NextResponse.json({
+      msg: "Categories deleted successfully",
+      success: true,
+    });
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json(
+      {
+        msg: error.message || "Server error",
         success: false,
       },
       { status: 500 }

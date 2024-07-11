@@ -7,6 +7,7 @@ import { CgSpinner } from "react-icons/cg";
 import ManagerEditCategoryComponent from "./ManagerEditCategoryComponent";
 import Image from "next/image";
 import Pagination from "@/utils/Pagination";
+import { toast } from "react-toastify";
 
 const ManageCategoriesComponent = ({ user }) => {
   const [page, setPage] = useState(0);
@@ -45,6 +46,25 @@ const ManageCategoriesComponent = ({ user }) => {
   };
   const closeModal2 = () => {
     setIsOpen2(false);
+  };
+
+  const deleteCategory = async (id, title, subs) => {
+    console.log(id, title, subs);
+    try {
+      const { data } = await axios.patch(
+        `/api/category?id=${id}&categoryTitle=${title}`,
+        subs
+      );
+      if (data.success) {
+        await refetchCategories();
+        toast.success("Category deleted successfully");
+      } else {
+        toast.error("Server error, Try again!");
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.msg);
+    }
   };
 
   return (
@@ -136,7 +156,16 @@ const ManageCategoriesComponent = ({ user }) => {
                     >
                       Edit
                     </button>
-                    <button className="px-4 py-1 rounded-md text-red-500 duration-300 bg-white font-semibold active:scale-90">
+                    <button
+                      onClick={() =>
+                        deleteCategory(
+                          category._id,
+                          category.title,
+                          category.subs
+                        )
+                      }
+                      className="px-4 py-1 rounded-md text-red-500 duration-300 bg-white font-semibold active:scale-90"
+                    >
                       Delete
                     </button>
                   </div>
