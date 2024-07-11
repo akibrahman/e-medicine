@@ -80,19 +80,28 @@ export const GET = async (req) => {
     if (userId) aggrigate.push({ $match: { userId } });
     if (id)
       aggrigate.push({ $match: { _id: new mongoose.Types.ObjectId(id) } });
+    if (id) {
+      const orders = await Order.aggregate(aggrigate);
 
-    const orders = await Order.aggregate(aggrigate)
-      .skip(pageNumber * itemPerPage)
-      .limit(itemPerPage);
+      return NextResponse.json({
+        msg: "Orders fetched successfully",
+        success: true,
+        orders,
+      });
+    } else {
+      const orders = await Order.aggregate(aggrigate)
+        .skip(pageNumber * itemPerPage)
+        .limit(itemPerPage);
 
-    const count = await Order.aggregate(aggrigate);
+      const count = await Order.aggregate(aggrigate);
 
-    return NextResponse.json({
-      msg: "Orders fetched successfully",
-      success: true,
-      orders,
-      count: count.length,
-    });
+      return NextResponse.json({
+        msg: "Orders fetched successfully",
+        success: true,
+        orders,
+        count: count.length,
+      });
+    }
   } catch (error) {
     console.log(error);
     return NextResponse.json(

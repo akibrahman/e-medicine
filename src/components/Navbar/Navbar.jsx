@@ -19,6 +19,7 @@ const Navbar = () => {
 
   const [loggingOut, setLoggingOut] = useState(false);
   const logout = async () => {
+    setShowLogoutMenu(false);
     setLoggingOut(true);
     try {
       const { data } = await axios.patch("/api/user");
@@ -101,6 +102,7 @@ const Navbar = () => {
               <hr />
               <div className="flex items-center justify-center gap-3">
                 <Link
+                  onClick={() => setShowLogoutMenu(false)}
                   href="/dashboard"
                   className="border px-4 py-1 rounded-md duration-300 active:scale-90 mt-5"
                 >
@@ -108,7 +110,7 @@ const Navbar = () => {
                 </Link>
                 <button
                   onClick={logout}
-                  className="border px-4 py-1 rounded-md duration-300 active:scale-90 mt-5"
+                  className="border px-4 py-1 rounded-md duration-300 active:scale-90 mt-5 w-max"
                 >
                   Log out
                 </button>

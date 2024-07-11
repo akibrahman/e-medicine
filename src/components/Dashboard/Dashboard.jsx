@@ -26,6 +26,8 @@ import ManageCategoriesComponent from "./Manager/ManageCategoriesComponent";
 import AddProductComponent from "./Manager/AddProductComponent";
 import AllProductComponent from "./Manager/AllProductComponent";
 import AllOrdersComponent from "./Manager/AllOrdersComponent";
+import MyProfileComponent from "./Manager/MyProfileComponent";
+import MyOrdersComponent from "./Manager/MyOrdersComponent";
 
 const Dashboard = ({ user }) => {
   const route = useRouter();
@@ -259,6 +261,54 @@ const Dashboard = ({ user }) => {
                   </Link>
                 </>
               )}
+              {user && user.role == "user" && (
+                <>
+                  <Link
+                    onClick={() => setSideBarShown(false)}
+                    href="/dashboard?displayData=myProfile"
+                  >
+                    <div
+                      className={`flex items-center p-2 rounded-lg text-white group select-none cursor-pointer ${
+                        displayData == "myProfile"
+                          ? "bg-gray-700"
+                          : "hover:bg-gray-700"
+                      }`}
+                    >
+                      <CgProfile
+                        className={`text-gray-400 md:text-xl ${
+                          displayData == "myProfile"
+                            ? "text-white"
+                            : "group-hover:text-white"
+                        }`}
+                      />
+                      <span className="ms-3 text-sm md:text-base">Profile</span>
+                    </div>
+                  </Link>
+                  <Link
+                    onClick={() => setSideBarShown(false)}
+                    href="/dashboard?displayData=myOrders"
+                  >
+                    <div
+                      className={`flex items-center p-2 rounded-lg text-white group select-none cursor-pointer ${
+                        displayData == "myOrders"
+                          ? "bg-gray-700"
+                          : "hover:bg-gray-700"
+                      }`}
+                    >
+                      <CgProfile
+                        className={`text-gray-400 md:text-xl ${
+                          displayData == "myOrders"
+                            ? "text-white"
+                            : "group-hover:text-white"
+                        }`}
+                      />
+                      <span className="ms-3 text-sm md:text-base">
+                        My Orders
+                      </span>
+                    </div>
+                  </Link>
+                </>
+              )}
             </ul>
           </div>
         </aside>
@@ -275,7 +325,11 @@ const Dashboard = ({ user }) => {
             ) : displayData == "allProduct" ? (
               <AllProductComponent />
             ) : displayData == "allOrders" ? (
-              <AllOrdersComponent />
+              <AllOrdersComponent /> //=====================
+            ) : displayData == "myProfile" ? (
+              <MyProfileComponent user={user} />
+            ) : displayData == "myOrders" ? (
+              <MyOrdersComponent user={user} />
             ) : null
           }
         </div>
