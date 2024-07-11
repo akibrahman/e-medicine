@@ -13,7 +13,8 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 
 const Navbar = () => {
-  const { loading, user, userRefetch, carts } = useContext(AuthContext);
+  const { loading, user, userRefetch, carts, setMainSidebar, mainSidebar } =
+    useContext(AuthContext);
   const route = useRouter();
   const [showLogoutMenu, setShowLogoutMenu] = useState(false);
 
@@ -39,7 +40,10 @@ const Navbar = () => {
   return (
     <nav className="flex items-center justify-between border-b-4 border-primary py-5 px-4">
       <div className="flex items-center gap-6">
-        <div className="p-2 bg-primary rounded-md w-max text-white text-xl cursor-pointer duration-300 active:scale-90">
+        <div
+          onClick={() => setMainSidebar(!mainSidebar)}
+          className="p-2 bg-primary rounded-md w-max text-white text-xl cursor-pointer duration-300 active:scale-90"
+        >
           <HiMiniBars3BottomLeft />
         </div>
         <Link href={"/"} className="flex items-center gap-1">

@@ -2,8 +2,8 @@
 import { AuthContext } from "@/app/providers/ContextProvider";
 import React, { useContext, useState } from "react";
 
-const AddToCartDetailsButton = ({ id, variants }) => {
-  const { user } = useContext(AuthContext);
+const AddToCartDetailsButton = ({ id, variants, product = {} }) => {
+  const { addToCart } = useContext(AuthContext);
   const [selectedVariant, setSelectedVariant] = useState(0);
 
   return (
@@ -36,7 +36,16 @@ const AddToCartDetailsButton = ({ id, variants }) => {
           ))}
         </div>
       </div>
-      <button className="bg-primary w-max text-center text-white font-medium py-2 px-5 my-4 rounded duration-200 active:scale-90 mb-2 mx-auto inline-block">
+      <button
+        onClick={() =>
+          addToCart({
+            ...product,
+            count: 1,
+            variants: { ...product.variants[selectedVariant] },
+          })
+        }
+        className="bg-primary w-max text-center text-white font-medium py-2 px-5 my-4 rounded duration-200 active:scale-90 mb-2 mx-auto inline-block"
+      >
         Add to Cart
       </button>
     </div>

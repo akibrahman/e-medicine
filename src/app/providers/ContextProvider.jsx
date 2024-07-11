@@ -8,6 +8,7 @@ export const AuthContext = createContext(null);
 
 const ContextProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
+  const [mainSidebar, setMainSidebar] = useState(true);
   //! Get User
   const { data: user, refetch: userRefetch } = useQuery({
     queryKey: ["profile", "user", "all"],
@@ -107,6 +108,8 @@ const ContextProvider = ({ children }) => {
     removeItemFromCart,
     updateItemCount,
     clearCart,
+    setMainSidebar,
+    mainSidebar,
   };
   return <AuthContext.Provider value={info}>{children}</AuthContext.Provider>;
 };

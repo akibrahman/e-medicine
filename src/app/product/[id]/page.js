@@ -38,8 +38,12 @@ const page = async ({ params }) => {
           </p>
         </div>
       </div>
-      <AddToCartDetailsButton id={product._id} variants={product.variants} />
-      <DetailsMoreProducts category={product.category}/>
+      <AddToCartDetailsButton
+        product={product}
+        id={product._id}
+        variants={product.variants}
+      />
+      <DetailsMoreProducts category={product.category} />
     </div>
   );
 };

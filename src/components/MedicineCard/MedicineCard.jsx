@@ -107,7 +107,13 @@ const MedicineCard = ({ medicine }) => {
           </p>
         </div>
         <button
-          onClick={() => addToCart({ ...medicine, count: 1 })}
+          onClick={() =>
+            addToCart({
+              ...medicine,
+              count: 1,
+              variants: { ...medicine.variants[variantIndex] },
+            })
+          }
           className="bg-primary w-full text-center text-white font-medium py-1 rounded-lg duration-200 active:scale-90"
         >
           Add to Cart

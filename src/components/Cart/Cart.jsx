@@ -35,25 +35,6 @@ const Cart = () => {
   );
   const totalSavings = totalRegularPrice - totalPrice;
   //---------------------------
-  const [inputValues, setInputValues] = useState({});
-
-  useEffect(() => {
-    // Initialize input values from carts state
-    const initialInputValues = carts.reduce((acc, cart) => {
-      acc[cart._id] = cart.count;
-      return acc;
-    }, {});
-    setInputValues(initialInputValues);
-  }, [carts]);
-
-  const handleInputChange = (id, mg, value) => {
-    const newCount = parseInt(value);
-    setInputValues((prev) => ({ ...prev, [id]: newCount }));
-    if (!isNaN(newCount) && newCount > 0) {
-      updateItemCount(id, mg, newCount);
-      updateItemCount(id, mg, value);
-    }
-  };
   return (
     <>
       <div
@@ -83,11 +64,8 @@ const Cart = () => {
           />
         </div>
         <div className="p-3 flex flex-col items-center gap-3 overflow-y-scroll custom-scrollbar h-[310px]">
-          {carts.map((cart) => (
-            <div
-              className="flex items-center gap-2 shadow-lg p-2"
-              key={cart._id}
-            >
+          {carts.map((cart, i) => (
+            <div className="flex items-center gap-2 shadow-lg p-2" key={i}>
               <div className="border rounded-md">
                 <Image
                   src={cart.photoUrl}
@@ -136,7 +114,7 @@ const Cart = () => {
                     type="text"
                     name="qty"
                     id="qty"
-                    value={inputValues[cart._id] || ""}
+                    value={cart.count}
                     onChange={(e) =>
                       handleInputChange(
                         cart._id,

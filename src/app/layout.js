@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "swiper/css";
 import "swiper/css/pagination";
 import Navbar from "@/components/Navbar/Navbar";
+import Cart from "@/components/Cart/Cart";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -26,6 +27,7 @@ export default function RootLayout({ children }) {
           <ContextProvider>
             <ToastContainer />
             <Navbar />
+            <Cart />
             <div className="">{children}</div>
           </ContextProvider>
         </TanstackProvider>

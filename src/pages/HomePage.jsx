@@ -1,17 +1,21 @@
 "use client";
-import Cart from "@/components/Cart/Cart";
+import { AuthContext } from "@/app/providers/ContextProvider";
 import DisplayPage from "@/components/DisplayPage/DisplayPage";
 import Sidebar from "@/components/Sidebar/Sidebar";
-import React, { useState } from "react";
-import { FaCartPlus } from "react-icons/fa";
+import React, { useContext, useState } from "react";
 
 const HomePage = ({ categories, medicines }) => {
+  const { setMainSidebar, mainSidebar } = useContext(AuthContext);
+
   const [activeMenu, setActiveMenu] = useState([]);
   const [activeCategory, setActiveCategory] = useState("");
   return (
-    <div className="grid grid-cols-4 h-[calc(100vh-89px)] relative">
-      <Cart />
-      <div className="border-r-2 border-[#424242]">
+    <div className="w-full duration-300 h-[calc(100vh-89px)] flex gap-0 relative">
+      <div
+        className={`duration-300 h-full overflow-y-scroll border-r-2 border-[#424242] absolute z-50 md:z-auto bg-white md:relative top-0 left-0 ${
+          mainSidebar ? "w-[70%] md:w-[25%]" : "w-0 md:w-[10%]"
+        }`}
+      >
         <Sidebar
           categories={categories}
           activeMenu={activeMenu}
@@ -20,7 +24,11 @@ const HomePage = ({ categories, medicines }) => {
           setActiveCategory={setActiveCategory}
         />
       </div>
-      <div className="col-span-3">
+      <div
+        className={`duration-300 h-full overflow-y-scroll ${
+          mainSidebar ? "w-full md:w-[75%]" : "w-full md:w-[90%]"
+        }`}
+      >
         <DisplayPage
           medicines={medicines}
           categories={categories}

@@ -1,7 +1,8 @@
 "use client";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import MedicineCard from "../MedicineCard/MedicineCard";
+import { AuthContext } from "@/app/providers/ContextProvider";
 
 const DisplayPage = ({
   medicines = [],
@@ -10,6 +11,8 @@ const DisplayPage = ({
   activeMenu = [],
   setActiveMenu,
 }) => {
+  const { mainSidebar } = useContext(AuthContext);
+
   const [displayMedicines, setDisplayMedicines] = useState([...medicines]);
   const [showMedicine, setShowMedicine] = useState(true);
   const [subcategories, setSubcategories] = useState([]);
@@ -60,7 +63,13 @@ const DisplayPage = ({
         </p>
       </div>
       {showMedicine && (
-        <div className="grid grid-cols-4 gap-5 p-4">
+        <div
+          className={`grid md:gap-5 w-[70%] md:w-auto mx-auto p-4 duration-300 ${
+            mainSidebar
+              ? "grid-cols-1 md:grid-cols-4"
+              : "grid-cols-1 md:grid-cols-5"
+          }`}
+        >
           {displayMedicines.map((medicine, i) => (
             <MedicineCard key={i} medicine={medicine} />
           ))}
