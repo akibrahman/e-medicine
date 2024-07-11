@@ -1,36 +1,37 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# This is a [Next.js](https://nextjs.org/) based project made by Akib Rahman for Asian IT Inc.
 
-## Getting Started
+## Live Link - [E-Medicine](https://e-medicine-akib.vercel.app/)
 
-First, run the development server:
+## Github Repository - [GitHub](https://github.com/akibrahman/e-medicine)
+
+## N.B -----------------------------------------------------------
+
+### This project is hosted on Vercel and as Vercel does not permite to change on the file system.... so, if you want to upload any image from the live link like, 'Sign Up' or 'Add A Product', It will not work, So please run the project on your local computer and then check the project
+
+## Steps to run on local computer:
+
+- Clone the project from github [Project Github](https://github.com/akibrahman/e-medicine)
 
 ```bash
+npm install
+
+then
+
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Super Admin Creadentials
 
-## Learn More
+- E-mail: akibrahman5200@gmail.com
+- Password: akib1234
+## Customer 1 Creadentials
 
-To learn more about Next.js, take a look at the following resources:
+- E-mail: akibrahman728@gmail.com
+- Password: akib1234
+## Customer 2 Creadentials
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- E-mail: akibrahmann@gmail.com
+- Password: akib1234
