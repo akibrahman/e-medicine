@@ -1,4 +1,5 @@
 import Order from "@/models/orderModel";
+import Product from "@/models/productModel";
 import { NextResponse } from "next/server";
 
 const { dbConfig } = require("@/dbConfig/dbConfig");
@@ -22,8 +23,18 @@ export const POST = async (req) => {
   const products = data.carts.map((cart) => ({
     id: cart._id,
     mg: cart.variants.mg,
-    count: cart.count,
+    count: parseInt(cart.count),
   }));
+
+  await Promise.all(
+    products.map(async (product) => {
+      const exProduct = await Product.findById(product.id);
+      await Product.findByIdAndUpdate(product.id, {
+        stock: parseInt(exProduct.stock) - product.count,
+      });
+    })
+  );
+
   info.paymentMethode == "cod" ? (info.paid = false) : (info.paid = true);
   try {
     await new Order({ ...info, carts: products }).save();

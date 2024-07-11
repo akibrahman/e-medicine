@@ -5,14 +5,14 @@ import Link from "next/link";
 import React, { useContext, useState } from "react";
 
 const MedicineCard = ({ medicine }) => {
-  const { addToCart } = useContext(AuthContext);
+  const { carts, addToCart, showCart, setShowCart } = useContext(AuthContext);
   const [variantIndex, setVariantIndex] = useState(0);
   const [isHovered, setIsHovered] = useState([false, ""]);
   return (
     <div
       onMouseEnter={() => setIsHovered([true, medicine.name])}
       onMouseLeave={() => setIsHovered([false, ""])}
-      className="shadow-xl p-3 cursor-pointer rounded-md"
+      className="shadow-xl p-3 rounded-md"
     >
       <div
         className={`relative rounded-md after:duration-200 ease-linear after:w-full after:bg-[rgba(0,0,0,0.5)] after:absolute after:top-0 after:rounded-t-md ${
@@ -61,18 +61,32 @@ const MedicineCard = ({ medicine }) => {
           >
             View Details
           </Link>
-          <button
-            onClick={() =>
-              addToCart({
-                ...medicine,
-                count: 1,
-                variants: { ...medicine.variants[variantIndex] },
-              })
-            }
-            className="bg-primary w-full text-center text-white font-medium py-1 rounded-lg duration-200 active:scale-90 mb-2"
-          >
-            Add to Cart
-          </button>
+
+          {medicine.stock == 0 ? (
+            <button className="bg-orange-500 w-full text-center text-white font-medium py-1 rounded-lg duration-200 active:scale-90 cursor-none pointer-events-none">
+              Stock Out
+            </button>
+          ) : carts.find((cart) => cart._id == medicine._id) ? (
+            <button
+              onClick={() => setShowCart(!showCart)}
+              className="bg-green-500 w-full text-center text-white font-medium py-1 rounded-lg duration-200 active:scale-90"
+            >
+              View Cart
+            </button>
+          ) : (
+            <button
+              onClick={() =>
+                addToCart({
+                  ...medicine,
+                  count: 1,
+                  variants: { ...medicine.variants[variantIndex] },
+                })
+              }
+              className="bg-primary w-full text-center text-white font-medium py-1 rounded-lg duration-200 active:scale-90 mb-2"
+            >
+              Add to Cart
+            </button>
+          )}
         </div>
         <div className="flex items-center justify-between py-4">
           <p className="font-semibold">{medicine.name}</p>
@@ -94,7 +108,7 @@ const MedicineCard = ({ medicine }) => {
             ৳ {medicine.variants[variantIndex].discounted_price}
           </p>
           <p className="font-medium text-sm text-[#999999]">
-            ৳ {medicine.variants[variantIndex].regular_price}
+            <del>৳ {medicine.variants[variantIndex].regular_price}</del>
           </p>
           <p className="text-sm text-red-500">
             {(
@@ -106,18 +120,31 @@ const MedicineCard = ({ medicine }) => {
             % OFF
           </p>
         </div>
-        <button
-          onClick={() =>
-            addToCart({
-              ...medicine,
-              count: 1,
-              variants: { ...medicine.variants[variantIndex] },
-            })
-          }
-          className="bg-primary w-full text-center text-white font-medium py-1 rounded-lg duration-200 active:scale-90"
-        >
-          Add to Cart
-        </button>
+        {medicine.stock == 0 ? (
+          <button className="bg-orange-500 w-full text-center text-white font-medium py-1 rounded-lg duration-200 active:scale-90 cursor-none pointer-events-none">
+            Stock Out
+          </button>
+        ) : carts.find((cart) => cart._id == medicine._id) ? (
+          <button
+            onClick={() => setShowCart(!showCart)}
+            className="bg-green-500 w-full text-center text-white font-medium py-1 rounded-lg duration-200 active:scale-90"
+          >
+            View Cart
+          </button>
+        ) : (
+          <button
+            onClick={() =>
+              addToCart({
+                ...medicine,
+                count: 1,
+                variants: { ...medicine.variants[variantIndex] },
+              })
+            }
+            className="bg-primary w-full text-center text-white font-medium py-1 rounded-lg duration-200 active:scale-90"
+          >
+            Add to Cart
+          </button>
+        )}
       </div>
     </div>
   );

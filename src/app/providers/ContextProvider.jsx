@@ -3,6 +3,7 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { createContext, useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 export const AuthContext = createContext(null);
 
@@ -29,6 +30,7 @@ const ContextProvider = ({ children }) => {
   //! Localstorage Management Section -Start---------------------------
   const [carts, setCarts] = useState([]);
   const [cartReloader, setCartReloader] = useState(true);
+  const [showCart, setShowCart] = useState(false);
 
   useEffect(() => {
     const storedItems = JSON.parse(localStorage.getItem("carts"));
@@ -58,12 +60,18 @@ const ContextProvider = ({ children }) => {
   };
 
   const updateItemCount = (id, mg, newCount) => {
+    console.log(newCount);
     if (newCount == 0) {
       removeItemFromCart(id, mg);
     } else {
       const updatedCarts = carts.map((cartItem) => {
         if (cartItem._id === id && cartItem.variants.mg === mg) {
-          return { ...cartItem, count: newCount };
+          if (cartItem.stock - newCount + 1 <= 0) {
+            toast.info("Not enough stock");
+            return { ...cartItem };
+          } else {
+            return { ...cartItem, count: newCount };
+          }
         }
         return cartItem;
       });
@@ -110,6 +118,8 @@ const ContextProvider = ({ children }) => {
     clearCart,
     setMainSidebar,
     mainSidebar,
+    showCart,
+    setShowCart,
   };
   return <AuthContext.Provider value={info}>{children}</AuthContext.Provider>;
 };

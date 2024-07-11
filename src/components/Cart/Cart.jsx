@@ -20,9 +20,9 @@ const Cart = () => {
     user = [],
     removeItemFromCart = () => {},
     updateItemCount = () => {},
+    showCart = false,
+    setShowCart = () => {},
   } = useContext(AuthContext) || {};
-
-  const [showCart, setShowCart] = useState(false);
 
   const totalItem = carts.reduce((a, c) => a + parseInt(c.count), 0);
   const totalPrice = carts.reduce(
@@ -106,9 +106,9 @@ const Cart = () => {
                   className="text-red-500 hover:scale-105 duration-300 cursor-pointer text-xl"
                 />
                 <p className="flex items-center justify-center gap-3">
-                  <span className="text-xs text-red-500">
-                    {cart.variants.regular_price}
-                  </span>
+                  <del className="text-xs text-red-500">
+                    ৳ {cart.variants.regular_price}
+                  </del>
                   <span className="text-sm text-primary font-semibold">
                     ৳ {cart.variants.discounted_price}
                   </span>
