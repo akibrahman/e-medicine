@@ -10,7 +10,7 @@
 
 ## Steps to run on local computer:
 
-- Clone the project from github [Project Github](https://github.com/akibrahman/e-medicine)
+- Clone the project from github [Project Github](https://github.com/akibrahman/e-medicine) and paste the `.env` file to the root of this project which I have sent you via E-mail 
 
 ```bash
 npm install
