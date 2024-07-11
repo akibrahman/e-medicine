@@ -8,7 +8,7 @@ export const AuthContext = createContext(null);
 
 const ContextProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
-  const [mainSidebar, setMainSidebar] = useState(true);
+  const [mainSidebar, setMainSidebar] = useState(false);
   //! Get User
   const { data: user, refetch: userRefetch } = useQuery({
     queryKey: ["profile", "user", "all"],

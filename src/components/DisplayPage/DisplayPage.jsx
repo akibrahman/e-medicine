@@ -58,8 +58,14 @@ const DisplayPage = ({
         <p className="font-semibold">
           {showMedicine ? "Medicines" : "Sub-Categories"}
         </p>
-        <p className="text-primary underline cursor-pointer font-semibold">
-          See All - {displayMedicines.length}
+        <p
+          onClick={() => {
+            setShowMedicine(true);
+            setDisplayMedicines([...medicines]);
+          }}
+          className="text-primary underline cursor-pointer font-semibold"
+        >
+          See All
         </p>
       </div>
       {showMedicine && (

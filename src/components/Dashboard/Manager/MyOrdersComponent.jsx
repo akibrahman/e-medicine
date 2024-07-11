@@ -219,22 +219,22 @@ const MyOrdersComponent = ({ user }) => {
           Orders Management Section
         </p>
         <div className="mt-5 flex flex-col gap-3">
-          <div className="flex items-center justify-between px-3 py-2 bg-primary font-medium text-white rounded">
-            <p className="w-[12%] text-center">Image</p>
-            <p className="w-[12%] text-center">Name</p>
-            <p className="w-[12%] text-center">Qty</p>
-            <p className="w-[12%] text-center">Status</p>
-            <p className="w-[10%] text-center">payment</p>
-            <p className="w-[20%] text-center">Address</p>
-            <p className="w-[10%] text-center">Phone</p>
-            <p className="w-[12%] text-center">Action</p>
+          <div className="flex flex-col md:flex-row gap-2 md:gap-0 items-center justify-between px-3 py-2 bg-primary font-medium text-white rounded">
+            <p className="md:w-[12%] text-center">Image</p>
+            <p className="md:w-[12%] text-center">Name</p>
+            <p className="md:w-[12%] text-center">Qty</p>
+            <p className="md:w-[12%] text-center">Status</p>
+            <p className="md:w-[10%] text-center">payment</p>
+            <p className="md:w-[20%] text-center">Address</p>
+            <p className="md:w-[10%] text-center">Phone</p>
+            <p className="md:w-[12%] text-center">Action</p>
           </div>
           {orders.map((order) => (
             <div
               key={order._id}
-              className="flex items-center justify-between px-3 py-2 text-primary font-medium shadow shadow-primary rounded"
+              className="flex flex-col md:flex-row gap-2 md:gap-0 items-center justify-between px-3 py-2 text-primary font-medium shadow shadow-primary rounded"
             >
-              <div className="w-[12%] flex items-center justify-center">
+              <div className="md:w-[12%] flex items-center justify-center">
                 <Image
                   src={order.user.photo}
                   alt={order.user.name}
@@ -243,15 +243,15 @@ const MyOrdersComponent = ({ user }) => {
                   className="aspect-square rounded-full mx-auto"
                 />
               </div>
-              <p className="w-[12%] text-center">{order.user.name}</p>
-              <p className="w-[12%] text-center">{order.carts.length}</p>
-              <p className="w-[12%] text-center">{order.status}</p>
-              <p className="w-[10%] text-center">
+              <p className="md:w-[12%] text-center">{order.user.name}</p>
+              <p className="md:w-[12%] text-center">{order.carts.length}</p>
+              <p className="md:w-[12%] text-center">{order.status}</p>
+              <p className="md:w-[10%] text-center">
                 {order.paid ? "Paid" : "Due"}
               </p>
-              <p className="w-[20%] text-center">{order.address}</p>
-              <p className="w-[10%] text-center">{order.phone}</p>
-              <div className="flex items-center justify-center gap-2 w-[12%]">
+              <p className="md:w-[20%] text-center">{order.address}</p>
+              <p className="md:w-[10%] text-center">{order.phone}</p>
+              <div className="flex items-center justify-center gap-2 md:w-[12%]">
                 <button
                   onClick={() => getOrderDetails(order._id)}
                   className="px-3 py-1 rounded bg-primary text-white font-semibold text-sm duration-300 active:scale-90"

@@ -19,7 +19,7 @@ const AllOrdersComponent = () => {
 
   const { data: orders, refetch } = useQuery({
     queryKey: ["orders", "manager dashboard", page],
-    queryFn: async ({queryKey}) => {
+    queryFn: async ({ queryKey }) => {
       try {
         const { data } = await axios.get(`/api/order?page=${queryKey[2]}`);
         if (data.success) {
@@ -203,17 +203,11 @@ const AllOrdersComponent = () => {
         style={customStyles}
       >
         {modalData ? (
-          <div className="">
+          <div className="overflow-y-scroll h-[500px] md:h-auto md:overflow-y-hidden">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-semibold">Order Details</h2>
-              <button
-                onClick={closeModal}
-                className="text-gray-600 hover:text-gray-900"
-              >
-                ✕
-              </button>
             </div>
-            <div className="flex items-center gap-4">
+            <div className="flex flex-col md:flex-row md:gap-0 items-center gap-4">
               <div className="mb-4">
                 <h3 className="text-lg font-semibold">Customer Information</h3>
                 <p>
@@ -321,22 +315,22 @@ const AllOrdersComponent = () => {
           Orders Management Section
         </p>
         <div className="mt-5 flex flex-col gap-3">
-          <div className="flex items-center justify-between px-3 py-2 bg-primary font-medium text-white rounded">
-            <p className="w-[12%] text-center">Image</p>
-            <p className="w-[12%] text-center">Name</p>
-            <p className="w-[12%] text-center">Qty</p>
-            <p className="w-[12%] text-center">Status</p>
-            <p className="w-[10%] text-center">payment</p>
-            <p className="w-[20%] text-center">Address</p>
-            <p className="w-[10%] text-center">Phone</p>
-            <p className="w-[12%] text-center">Action</p>
+          <div className="flex flex-col md:flex-row gap-2 md:gap-0 items-center justify-between px-3 py-2 bg-primary font-medium text-white rounded">
+            <p className="md:w-[12%] text-center">Image</p>
+            <p className="md:w-[12%] text-center">Name</p>
+            <p className="md:w-[12%] text-center">Qty</p>
+            <p className="md:w-[12%] text-center">Status</p>
+            <p className="md:w-[10%] text-center">payment</p>
+            <p className="md:w-[20%] text-center">Address</p>
+            <p className="md:w-[10%] text-center">Phone</p>
+            <p className="md:w-[12%] text-center">Action</p>
           </div>
           {orders.map((order) => (
             <div
               key={order._id}
-              className="flex items-center justify-between px-3 py-2 text-primary font-medium shadow shadow-primary rounded"
+              className="flex flex-col md:flex-row gap-2 md:gap-0 items-center justify-between px-3 py-2 text-primary font-medium shadow shadow-primary rounded"
             >
-              <div className="w-[12%] flex items-center justify-center">
+              <div className="md:w-[12%] flex items-center justify-center">
                 <Image
                   src={order.user.photo}
                   alt={order.user.name}
@@ -345,15 +339,15 @@ const AllOrdersComponent = () => {
                   className="aspect-square rounded-full mx-auto"
                 />
               </div>
-              <p className="w-[12%] text-center">{order.user.name}</p>
-              <p className="w-[12%] text-center">{order.carts.length}</p>
-              <p className="w-[12%] text-center">{order.status}</p>
-              <p className="w-[10%] text-center">
+              <p className="md:w-[12%] text-center">{order.user.name}</p>
+              <p className="md:w-[12%] text-center">{order.carts.length}</p>
+              <p className="md:w-[12%] text-center">{order.status}</p>
+              <p className="md:w-[10%] text-center">
                 {order.paid ? "Paid" : "Due"}
               </p>
-              <p className="w-[20%] text-center">{order.address}</p>
-              <p className="w-[10%] text-center">{order.phone}</p>
-              <div className="flex items-center justify-center gap-2 w-[12%]">
+              <p className="md:w-[20%] text-center">{order.address}</p>
+              <p className="md:w-[10%] text-center">{order.phone}</p>
+              <div className="flex items-center justify-center gap-2 md:w-[12%]">
                 <button
                   onClick={() => getOrderDetails(order._id)}
                   className="px-3 py-1 rounded bg-primary text-white font-semibold text-sm duration-300 active:scale-90"

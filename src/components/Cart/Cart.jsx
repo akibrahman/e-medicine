@@ -64,6 +64,11 @@ const Cart = () => {
           />
         </div>
         <div className="p-3 flex flex-col items-center gap-3 overflow-y-scroll custom-scrollbar h-[310px]">
+          {carts.length == 0 && (
+            <p className="bg-secondary text-primary px-4 py-1 rounded-md">
+              No added items to cart !
+            </p>
+          )}
           {carts.map((cart, i) => (
             <div className="flex items-center gap-2 shadow-lg p-2" key={i}>
               <div className="border rounded-md">

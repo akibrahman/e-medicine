@@ -38,7 +38,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="flex items-center justify-between border-b-4 border-primary py-5 px-4">
+    <nav className="flex flex-col md:flex-row items-center justify-between gap-2 md:gap-0 border-b-4 border-primary py-1 md:py-5 px-4">
       <div className="flex items-center gap-6">
         <div
           onClick={() => setMainSidebar(!mainSidebar)}
@@ -57,7 +57,7 @@ const Navbar = () => {
           type="text"
           name=""
           placeholder="Search your medicine"
-          className="bg-transparent border border-[#9A9A9A] border-r-0 placeholder:text-[#9A9A9A] placeholder:text-sm rounded-s px-2 py-1 outline-none text-[#9A9A9A] w-[500px]"
+          className="bg-transparent border border-[#9A9A9A] border-r-0 placeholder:text-[#9A9A9A] placeholder:text-sm rounded-s px-2 py-1 outline-none text-[#9A9A9A] w-[300px] md:w-[500px]"
         />
         <div className="bg-primary text-xl text-white font-semibold h-[34px] rounded-e flex items-center justify-center px-2 cursor-pointer duration-300 active:scale-90">
           <CiSearch className="" />

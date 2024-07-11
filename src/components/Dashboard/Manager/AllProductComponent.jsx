@@ -61,19 +61,19 @@ const AllProductComponent = () => {
         Products Management Section
       </p>
       <div className="mt-5 flex flex-col gap-3">
-        <div className="flex items-center justify-between px-3 py-2 bg-primary font-medium text-white rounded">
-          <p className="w-[12%] text-center">Image</p>
-          <p className="w-[12%] text-center">Name</p>
-          <p className="w-[12%] text-center">Company Name</p>
-          <p className="w-[12%] text-center">Type</p>
-          <p className="w-[30%] text-center">Description</p>
-          <p className="w-[10%] text-center">Stock</p>
-          <p className="w-[12%] text-center">Actiion</p>
+        <div className="flex flex-col md:flex-row gap-2 md:gap-0 items-center justify-between px-3 py-2 bg-primary font-medium text-white rounded">
+          <p className="md:w-[12%] text-center">Image</p>
+          <p className="md:w-[12%] text-center">Name</p>
+          <p className="md:w-[12%] text-center">Company Name</p>
+          <p className="md:w-[12%] text-center">Type</p>
+          <p className="md:w-[30%] text-center">Description</p>
+          <p className="md:w-[10%] text-center">Stock</p>
+          <p className="md:w-[12%] text-center">Actiion</p>
         </div>
         {products.map((product, i) => (
           <div
             key={product._id}
-            className="flex items-center justify-between px-3 py-2 text-primary font-medium shadow shadow-primary rounded"
+            className="flex flex-col md:flex-row gap-2 md:gap-0 items-center justify-between px-3 py-2 text-primary font-medium shadow shadow-primary rounded"
           >
             <p>{i + 1}</p>
             <Image
@@ -81,14 +81,14 @@ const AllProductComponent = () => {
               alt={product.name}
               height={80}
               width={80}
-              className="aspect-video w-[12%] mx-auto"
+              className="aspect-video md:w-[12%] mx-auto"
             />
-            <p className="w-[12%] text-center">{product.name}</p>
-            <p className="w-[12%] text-center">{product.company_name}</p>
-            <p className="w-[12%] text-center">{product.type}</p>
-            <p className="w-[30%] text-center">{product.description}</p>
-            <p className="w-[10%] text-center">{product.stock}</p>
-            <div className="flex items-center justify-center gap-2 w-[12%]">
+            <p className="md:w-[12%] text-center">{product.name}</p>
+            <p className="md:w-[12%] text-center">{product.company_name}</p>
+            <p className="md:w-[12%] text-center">{product.type}</p>
+            <p className="md:w-[30%] text-center">{product.description}</p>
+            <p className="md:w-[10%] text-center">{product.stock}</p>
+            <div className="flex items-center justify-center gap-2 md:w-[12%]">
               <Link
                 href={`/editProduct/${product._id}`}
                 className="w-9 h-9 bg-orange-500 text-white rounded-full flex items-center justify-center cursor-pointer duration-300 active:scale-90"

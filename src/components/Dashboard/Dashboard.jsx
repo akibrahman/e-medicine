@@ -34,39 +34,28 @@ const Dashboard = ({ user }) => {
   const searchParams = useSearchParams();
   let displayData = searchParams.get("displayData");
 
-  // if (!displayData) {
-  //   user.role == "admin"||user.role == "super-admin"
-  //     ? (displayData = "managerProfile")
-  //     : (displayData = "profile");
-  // }
-  // if (displayData) {
-  //   if (
-  //     (displayData == "profile" ||
-  //       displayData == "myBills" ||
-  //       displayData == "mealHistory" ||
-  //       displayData == "currentMonth" ||
-  //       displayData == "managerDetails") &&
-  //     user.role == "manager"
-  //   ) {
-  //     displayData = "managerProfile";
-  //   } else if (
-  //     (displayData == "managerAllUsers" ||
-  //       displayData == "managerMarketDetails" ||
-  //       displayData == "managerOrderStatus" ||
-  //       displayData == "managerSendSMS" ||
-  //       displayData == "managerBillQuery" ||
-  //       displayData == "managerMealQuery" ||
-  //       displayData == "managerMarketQuery" ||
-  //       displayData == "managerMealUpdator" ||
-  //       displayData == "managerRFIDIssue" ||
-  //       displayData == "managerAllBookings" ||
-  //       displayData == "managerManualInvouce" ||
-  //       displayData == "mealChangeRequests") &&
-  //     user.role == "client"
-  //   ) {
-  //     displayData = "profile";
-  //   }
-  // }
+  if (!displayData) {
+    user.role == "admin" || user.role == "super-admin"
+      ? (displayData = "superAdminProfile")
+      : (displayData = "profile");
+  }
+  if (displayData) {
+    if (
+      (displayData == "myProfile" || displayData == "myOrders") &&
+      (user.role == "admin" || user.role == "super-admin")
+    ) {
+      displayData = "superAdminProfile";
+    } else if (
+      (displayData == "superAdminProfile" ||
+        displayData == "categories" ||
+        displayData == "addProduct" ||
+        displayData == "allProduct" ||
+        displayData == "allOrders") &&
+      user.role == "user"
+    ) {
+      displayData = "profile";
+    }
+  }
 
   const { userRefetch } = useContext(AuthContext);
   const [profileBarShown, setProfileBarShown] = useState(false);
@@ -130,7 +119,7 @@ const Dashboard = ({ user }) => {
       <div className="flex h-[calc(100vh-130px)]">
         <aside
           id="logo-sidebar"
-          className={`absolute md:relative h-[calc(100vh-130px)] py-10 transition-transform border-r border-gray-700 ${
+          className={`absolute md:relative h-[calc(100vh-130px)] z-40 py-10 transition-transform border-r border-gray-700 ${
             sideBarShown
               ? "w-72 md:w-72 bg-opacity-95 md:bg-opacity-100 bg-gray-800"
               : "w-0 md:w-72 md:bg-gray-800"
