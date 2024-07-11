@@ -1,10 +1,7 @@
+import { dbConfig } from "@/dbConfig/dbConfig";
 import Order from "@/models/orderModel";
-import { unlink, writeFile } from "fs/promises";
 import mongoose from "mongoose";
 import { NextResponse } from "next/server";
-import { join } from "path";
-
-const { dbConfig } = require("@/dbConfig/dbConfig");
 
 await dbConfig();
 

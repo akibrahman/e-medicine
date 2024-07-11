@@ -11,7 +11,7 @@ const DisplayPage = ({
   activeMenu = [],
   setActiveMenu,
 }) => {
-  const { mainSidebar } = useContext(AuthContext);
+  const { mainSidebar = false } = useContext(AuthContext) || {};
 
   const [displayMedicines, setDisplayMedicines] = useState([...medicines]);
   const [showMedicine, setShowMedicine] = useState(true);

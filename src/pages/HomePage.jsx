@@ -6,7 +6,7 @@ import Sidebar from "@/components/Sidebar/Sidebar";
 import React, { useContext, useState } from "react";
 
 const HomePage = ({ categories, medicines }) => {
-  const { setMainSidebar, mainSidebar } = useContext(AuthContext);
+  const { mainSidebar } = useContext(AuthContext) || {};
 
   const [activeMenu, setActiveMenu] = useState([]);
   const [activeCategory, setActiveCategory] = useState("");

@@ -1,9 +1,8 @@
+import { dbConfig } from "@/dbConfig/dbConfig";
 import Category from "@/models/categoryModel";
 import { writeFile } from "fs/promises";
 import { NextResponse } from "next/server";
 import { join } from "path";
-
-const { dbConfig } = require("@/dbConfig/dbConfig");
 
 await dbConfig();
 

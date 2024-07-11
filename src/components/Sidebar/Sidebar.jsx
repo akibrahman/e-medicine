@@ -12,7 +12,7 @@ const Sidebar = ({
   activeCategory,
   setActiveCategory,
 }) => {
-  const { setMainSidebar, mainSidebar } = useContext(AuthContext);
+  const { mainSidebar = false } = useContext(AuthContext) || {};
   return (
     <div className="w-full p-4 select-none duration-300">
       <div className="flex items-center gap-2 px-1 py-3">
