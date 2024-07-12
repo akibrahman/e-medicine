@@ -1,8 +1,11 @@
 import AddToCartDetailsButton from "@/components/AddToCartDetailsButton/AddToCartDetailsButton";
 import DetailsMoreProducts from "@/components/AddToCartDetailsButton/DetailsMoreProducts";
+import { dbConfig } from "@/dbConfig/dbConfig";
 import Product from "@/models/productModel";
 import Image from "next/image";
 import React from "react";
+
+await dbConfig();
 
 const page = async ({ params }) => {
   const product = await Product.findById(params.id);
